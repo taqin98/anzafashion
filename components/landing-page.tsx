@@ -358,20 +358,11 @@ export function CollectionSection() {
         <GhostLink href="#kontak">Pesan Custom</GhostLink>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-3 gap-4 sm:gap-6">
         {collectionItems.map((item, index) => (
-          <Reveal
-            key={item.name}
-            delayMs={index * 120}
-            className={item.featured ? "xl:row-span-2" : ""}
-          >
+          <Reveal key={item.name} delayMs={index * 120}>
             <article className="group h-full cursor-pointer transition duration-300 hover:-translate-y-1">
-              <div
-                className={classNames(
-                  "relative overflow-hidden bg-[var(--sand-light)]",
-                  item.featured ? "h-full min-h-[26rem]" : "aspect-[3/4]",
-                )}
-              >
+              <div className="relative aspect-square overflow-hidden bg-[var(--sand-light)]">
                 <div className="flex size-full items-center justify-center">
                   <div className="flex flex-col items-center gap-3 text-[var(--warm-gray)] opacity-[0.45]">
                     <CollectionPlaceholderIcon icon={item.icon} className="size-12" />

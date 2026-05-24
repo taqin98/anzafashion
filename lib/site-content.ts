@@ -16,7 +16,6 @@ export type CollectionItem = {
   price: string;
   label: string;
   icon: CollectionIcon;
-  featured?: boolean;
   badge?: string;
   badgeTone?: "rose" | "terracotta";
 };
@@ -67,7 +66,6 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 350.000",
     label: "Foto Produk 1",
     icon: "kebaya",
-    featured: true,
     badge: "Terlaris",
     badgeTone: "rose",
   },
