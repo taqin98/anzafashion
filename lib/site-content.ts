@@ -145,7 +145,7 @@ export const testimonialItems: TestimonialItem[] = [
 
 export const contactItems: ContactItem[] = [
   { type: "phone", label: "WhatsApp", value: "0812-XXXX-XXXX" },
-  { type: "instagram", label: "Instagram", value: "@rumahjahit.anda" },
+  { type: "instagram", label: "Instagram", value: "@anzafashion" },
   {
     type: "location",
     label: "Lokasi",
@@ -159,4 +159,3 @@ export const serviceOptions = [
   "Busana Pesta & Pernikahan",
   "Seragam & Pesanan Massal",
 ];
-

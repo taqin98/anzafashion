@@ -17,9 +17,9 @@ const sansFont = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Rumah Jahit | Koleksi Eksklusif",
+  title: "Anza Fashion | Koleksi Eksklusif",
   description:
-    "Landing page Rumah Jahit dengan koleksi jahitan custom, layanan premium, dan form kontak interaktif.",
+    "Landing page Anza Fashion dengan koleksi jahitan custom, layanan premium, dan form kontak interaktif.",
 };
 
 export default function RootLayout({
@@ -35,4 +35,3 @@ export default function RootLayout({
     </html>
   );
 }
-

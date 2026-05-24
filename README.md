@@ -92,9 +92,12 @@ npm run start
 
 Brand asset utama ada di file berikut:
 
+- `public/anza-mark.png`
+- `public/anza-mark-dark.svg`
+- `public/anza-mark-light.svg`
 - `public/anza-mark.svg`
 - `public/anza-logo.svg`
-- `app/icon.svg`
+- `app/icon.png`
 
 Jika ingin mengganti logo:
 

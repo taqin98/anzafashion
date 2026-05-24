@@ -2,6 +2,7 @@ import type { SVGProps } from "react";
 
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
+import { SiteLogo } from "@/components/site-logo";
 import {
   collectionItems,
   contactItems,
@@ -189,7 +190,7 @@ export function Navbar() {
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-[var(--sand-light)] bg-[rgba(250,246,240,0.92)] px-5 py-4 backdrop-blur-[12px] md:px-8 xl:px-16">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-5">
         <a href="#" className="font-serif-display text-[1.5rem] font-semibold tracking-[0.05em]">
-          Rumah Jahit
+          <SiteLogo compact />
         </a>
         <ul className="hidden list-none items-center gap-10 md:flex">
           {navLinks.map((link) => (
@@ -332,7 +333,7 @@ export function AboutSection() {
           kepercayaan diri.
         </p>
         <div className="mt-8 font-serif-display text-[1.8rem] italic text-[var(--rose)]">
-          Selamat datang di Rumah Jahit kami.
+          Selamat datang di Anza Fashion.
         </div>
       </div>
     </section>
@@ -465,7 +466,7 @@ export function TestimonialsSection() {
             <article className="border border-[rgba(212,184,150,0.2)] bg-white/[0.03] p-8 transition hover:border-[rgba(201,137,122,0.4)]">
               <div className="mb-4 text-[0.85rem] text-[var(--rose)]">★★★★★</div>
               <div className="mb-2 font-serif-display text-[3.5rem] leading-none text-[var(--rose)]">
-                "
+                &ldquo;
               </div>
               <p className="mb-6 font-serif-display text-[1.05rem] leading-[1.8] text-[rgba(250,246,240,0.75)] italic">
                 {item.quote}
@@ -523,10 +524,10 @@ export function ContactSection() {
 export function Footer() {
   return (
     <footer className="flex flex-col gap-6 bg-[var(--charcoal)] px-6 py-10 text-center text-[rgba(250,246,240,0.55)] sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12 lg:text-left xl:px-28">
-      <a href="#" className="font-serif-display text-[1.4rem] font-semibold text-[var(--cream)]">
-        Rumah Jahit
+      <a href="#" className="text-[var(--cream)]">
+        <SiteLogo tone="light" />
       </a>
-      <p className="text-[0.78rem]">© 2025 Rumah Jahit · Made with care</p>
+      <p className="text-[0.78rem]">© 2025 Anza Fashion · Made with care</p>
       <div className="flex flex-wrap items-center justify-center gap-8 lg:justify-end">
         {navLinks.concat({ href: "#kontak", label: "Kontak" }).map((link) => (
           <a
