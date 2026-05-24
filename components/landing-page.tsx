@@ -5,6 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { SiteLogo } from "@/components/site-logo";
 import {
   collectionItems,
+  contactMapEmbedUrl,
   contactItems,
   heroStats,
   marqueeItems,
@@ -487,49 +488,87 @@ export function TestimonialsSection() {
 
 export function ContactSection() {
   return (
-    <section id="kontak" className="grid gap-12 px-6 py-20 sm:px-10 lg:grid-cols-2 lg:px-12 xl:gap-24 xl:px-28">
-      <div>
-        <SectionTag>Hubungi Kami</SectionTag>
-        <h2 className={sectionTitleClassName}>
-          Mari Mulai
-          <br />
-          Menjahit Bersama
-        </h2>
-        <p className={`${proseClassName} mb-10 mt-4`}>
-          Konsultasikan kebutuhan jahit Anda bersama kami. Ceritakan model yang
-          Anda impikan, kami wujudkan.
-        </p>
+    <section id="kontak" className="flex flex-col gap-10 px-6 py-20 sm:px-10 lg:px-12 xl:px-28">
+      <div className="grid gap-12 lg:grid-cols-2 xl:gap-24">
+        <div>
+          <SectionTag>Hubungi Kami</SectionTag>
+          <h2 className={sectionTitleClassName}>
+            Mari Mulai
+            <br />
+            Menjahit Bersama
+          </h2>
+          <p className={`${proseClassName} mb-10 mt-4`}>
+            Konsultasikan kebutuhan jahit Anda bersama kami. Ceritakan model
+            yang Anda impikan, kami wujudkan.
+          </p>
 
-        <div className="flex flex-col gap-5">
-          {contactItems.map((item) => (
-            <div key={item.label} className="flex items-start gap-4">
-              <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--rose-light)] text-[var(--rose-dark)]">
-                <ContactIcon type={item.type} />
-              </div>
-              <div>
-                <div className="mb-1 text-[0.7rem] uppercase tracking-[0.12em] text-[var(--warm-gray)]">
-                  {item.label}
+          <div className="flex flex-col gap-5">
+            {contactItems.map((item) => (
+              <div key={item.label} className="flex items-start gap-4">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--rose-light)] text-[var(--rose-dark)]">
+                  <ContactIcon type={item.type} />
                 </div>
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[0.92rem] text-[var(--charcoal)] transition hover:text-[var(--rose)]"
-                  >
-                    {item.value}
-                  </a>
-                ) : (
-                  <div className="text-[0.92rem] text-[var(--charcoal)]">{item.value}</div>
-                )}
+                <div>
+                  <div className="mb-1 text-[0.7rem] uppercase tracking-[0.12em] text-[var(--warm-gray)]">
+                    {item.label}
+                  </div>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[0.92rem] text-[var(--charcoal)] transition hover:text-[var(--rose)]"
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <div className="text-[0.92rem] text-[var(--charcoal)]">
+                      {item.value}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <ContactForm />
         </div>
       </div>
 
-      <div>
-        <ContactForm />
+      <div className="space-y-4">
+        <div className="px-1">
+          <div className="text-[0.7rem] uppercase tracking-[0.18em] text-[var(--rose)]">
+            Lokasi
+          </div>
+          <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-serif-display text-[1.2rem] font-light text-[var(--charcoal)]">
+              Anza Fashion, Semarang
+            </p>
+            <a
+              href="https://maps.app.goo.gl/jifjMwcKwkMiRqgs8"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[0.78rem] uppercase tracking-[0.14em] text-[var(--warm-gray)] transition hover:text-[var(--rose)]"
+            >
+              Buka di Google Maps
+            </a>
+          </div>
+        </div>
+        <div className="overflow-hidden rounded-[1.25rem] border border-[var(--soft-gray)] bg-[var(--sand-light)]">
+          <iframe
+            src={contactMapEmbedUrl}
+            width="600"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Peta lokasi Anza Fashion"
+            className="h-[260px] w-full md:h-[300px]"
+          />
+        </div>
       </div>
     </section>
   );

@@ -157,13 +157,10 @@ export const contactItems: ContactItem[] = [
     value: "@anzafashionofficial",
     href: "https://instagram.com/anzafashionofficial",
   },
-  {
-    type: "location",
-    label: "Lokasi",
-    value: "Semarang, Jawa Tengah",
-    href: "https://maps.app.goo.gl/jifjMwcKwkMiRqgs8",
-  },
 ];
+
+export const contactMapEmbedUrl =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.659353059105!2d110.48170089999999!3d-7.049255500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708dd3bde1980d%3A0xcf5ab909630e0e5c!2sAnza%20Fashion!5e0!3m2!1sen!2sid!4v1779604395398!5m2!1sen!2sid";
 
 export const serviceOptions = [
   "Jahit Custom",
