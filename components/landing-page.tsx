@@ -478,7 +478,7 @@ export function CollectionSection() {
         <GhostLink href="#kontak">Pesan Custom</GhostLink>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {collectionItems.map((item, index) => {
           const cardImage = item.image || item.images?.[0];
           const hasModal = item.images && item.images.length > 0;
