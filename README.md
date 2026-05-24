@@ -143,6 +143,39 @@ Jika CLI global terlalu lama, gunakan:
 npx vercel@latest --prod
 ```
 
+## Auto Deploy from GitHub
+
+Repo ini sudah disiapkan dengan GitHub Actions di:
+
+- `.github/workflows/vercel-deploy.yml`
+
+Behavior:
+
+- push ke `main` => production deploy ke Vercel
+- push ke branch selain `main` => preview deploy ke Vercel
+- workflow juga bisa dijalankan manual dari tab **Actions**
+
+### Secret yang wajib di-set di GitHub
+
+Buka **GitHub Repository > Settings > Secrets and variables > Actions** lalu tambahkan:
+
+- `VERCEL_TOKEN`
+
+Workflow ini sudah memakai project yang sedang ter-link ke Vercel:
+
+- `VERCEL_ORG_ID=team_bJYpHu45PeTsgFOwQYzZZs6O`
+- `VERCEL_PROJECT_ID=prj_MPxgiyiu5tXRCuy9RhTnOl5h94ta`
+
+### Cara ambil Vercel token
+
+1. Buka Vercel Dashboard
+2. Masuk ke **Settings**
+3. Buka **Tokens**
+4. Buat token baru
+5. Simpan nilainya ke GitHub secret `VERCEL_TOKEN`
+
+Setelah secret itu ada, setiap `git push` ke GitHub akan otomatis memicu deploy.
+
 ## Notes
 
 - Project menggunakan `next/font/google`, jadi proses build butuh akses internet untuk mengambil font.
