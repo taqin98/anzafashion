@@ -70,7 +70,6 @@ export const collectionItems: CollectionItem[] = [
     icon: "kebaya",
     image: "/products/product-1-1.jpeg",
     images: ["/products/product-1-1.jpeg", "/products/product-1-2.jpeg", "/products/product-1-3.jpeg", "/products/product-1-4.jpeg"],
-    badge: "Baru",
     badgeTone: "rose",
   },
   {
@@ -81,7 +80,6 @@ export const collectionItems: CollectionItem[] = [
     icon: "dress",
     image: "/products/product-2-1.jpeg",
     images: ["/products/product-2-1.jpeg", "/products/product-2-2.jpeg", "/products/product-2-3.jpeg", "/products/product-2-4.jpeg"],
-    badge: "Baru",
     badgeTone: "terracotta",
   },
   {
@@ -110,7 +108,6 @@ export const collectionItems: CollectionItem[] = [
     icon: "blouse",
     image: "/products/product-5-1.jpeg",
     images: ["/products/product-5-1.jpeg", "/products/product-5-2.jpeg", "/products/product-5-3.jpeg", "/products/product-5-4.jpeg"],
-    badge: "Baru",
     badgeTone: "terracotta",
   },
   {
@@ -121,7 +118,6 @@ export const collectionItems: CollectionItem[] = [
     icon: "blouse",
     image: "/products/product-6-1.jpeg",
     images: ["/products/product-6-1.jpeg", "/products/product-6-2.jpeg"],
-    badge: "Baru",
     badgeTone: "rose",
   },
 ];
