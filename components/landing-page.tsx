@@ -26,6 +26,8 @@ const sectionTitleClassName =
 const proseClassName =
   "text-[0.92rem] leading-[1.85] text-[var(--warm-gray)]";
 
+const heroLayoutVariant: "v1" | "v2" = "v2";
+
 function classNames(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
 }
@@ -93,13 +95,40 @@ function PlaceholderBox({
   );
 }
 
-function HeroPlaceholderIcon(props: SVGProps<SVGSVGElement>) {
+function HeroCollagePhoto({
+  src,
+  alt,
+  className,
+  objectPosition,
+  priority = false,
+  sizes,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  objectPosition: string;
+  priority?: boolean;
+  sizes: string;
+}) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.2" {...props}>
-      <path d="M20 8h24l6 12v34a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V20L20 8z" />
-      <path d="M22 8c0 6 4 10 10 10s10-4 10-10" />
-      <circle cx="32" cy="36" r="8" strokeDasharray="4 2" />
-    </svg>
+    <div
+      className={classNames(
+        "absolute overflow-hidden bg-[var(--warm-white)] p-3 shadow-[0_22px_60px_rgba(44,36,32,0.12)]",
+        className,
+      )}
+    >
+      <div className="relative size-full overflow-hidden bg-[var(--soft-gray)]">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-cover"
+          style={{ objectPosition }}
+          priority={priority}
+          sizes={sizes}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -189,7 +218,7 @@ function ContactIcon({ type }: { type: ContactItem["type"] }) {
 
 export function Navbar() {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[var(--sand-light)] bg-[rgba(250,246,240,0.92)] px-5 py-4 backdrop-blur-[12px] md:px-8 xl:px-16">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[var(--sand-light)] bg-[rgba(250,246,240,0.92)] px-6 py-4 backdrop-blur-[12px] sm:px-10 lg:px-12 xl:px-20">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-5">
         <a
           href="#"
@@ -220,9 +249,102 @@ export function Navbar() {
   );
 }
 
+function HeroVisualV1() {
+  return (
+    <div className="relative px-6 pb-16 pt-2 sm:px-10 lg:flex lg:min-h-full lg:items-start lg:justify-center lg:px-8 lg:pb-10 lg:pt-0 xl:px-12">
+      <div className="absolute inset-0 bg-[linear-gradient(140deg,var(--warm-white)_0%,var(--warm-white)_48%,rgba(212,184,150,0.38)_48%,rgba(212,184,150,0.38)_100%)]" />
+
+      <div className="relative mx-auto w-full max-w-[28rem] md:hidden">
+        <div className="absolute inset-0 rounded-[2rem] bg-[linear-gradient(145deg,rgba(253,249,244,0.96)_0%,rgba(253,249,244,0.96)_58%,rgba(212,184,150,0.34)_58%,rgba(212,184,150,0.34)_100%)]" />
+        <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(44,36,32,0.08)] px-4 pb-6 pt-6">
+          <p className="max-w-[16rem] text-[0.95rem] leading-[1.7] text-[var(--warm-gray)]">
+            Desain elegan dengan detail jahitan yang rapi untuk momen yang terasa spesial.
+          </p>
+
+          <div className="relative mt-6 h-[24rem]">
+            <div className="absolute left-0 top-12 h-16 w-16 bg-[rgba(212,184,150,0.42)]" />
+            <div className="absolute left-0 top-32 h-16 w-16 bg-[rgba(139,83,71,0.9)]" />
+            <div className="absolute left-5 top-8 h-[15rem] w-[68%] border-[3px] border-[rgba(44,36,32,0.22)]" />
+
+            <HeroCollagePhoto
+              src="/hero-photo-middle.jpg"
+              alt="Detail busana Anza Fashion"
+              className="left-6 top-10 z-10 h-[15rem] w-[68%]"
+              objectPosition="center 78%"
+              priority
+              sizes="(max-width: 767px) 70vw, 0px"
+            />
+
+            <HeroCollagePhoto
+              src="/hero-photo-bottom.jpg"
+              alt="Potret pelanggan Anza Fashion"
+              className="bottom-0 right-0 z-20 h-[10rem] w-[48%]"
+              objectPosition="center 18%"
+              sizes="(max-width: 767px) 45vw, 0px"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="relative mx-auto hidden w-full max-w-[780px] md:block lg:pt-0">
+        <div className="relative h-[34rem] lg:h-[35.5rem] xl:h-[34.5rem]">
+          <div className="absolute right-[7%] top-[6%] h-[11.5rem] w-[29%] border-[3px] border-[rgba(44,36,32,0.28)] lg:h-[13rem]" />
+          <div className="absolute left-[13%] top-[35%] h-[18rem] w-[58%] border-[3px] border-[rgba(44,36,32,0.28)] lg:h-[20rem] lg:w-[60%]" />
+          <div className="absolute bottom-[1%] right-[6%] h-[11.5rem] w-[32%] border-[3px] border-[rgba(44,36,32,0.28)] lg:h-[13rem]" />
+
+          <div className="absolute left-[2%] top-[43%] flex -translate-y-1/2 flex-col gap-5">
+            <div className="h-16 w-16 bg-[rgba(212,184,150,0.42)] lg:h-20 lg:w-20" />
+            <div className="h-16 w-16 bg-[rgba(139,83,71,0.9)] lg:h-20 lg:w-20" />
+          </div>
+
+          <HeroCollagePhoto
+            src="/hero-photo-middle.jpg"
+            alt="Foto utama koleksi Anza Fashion"
+            className="left-[19%] top-[41%] z-20 h-[16.5rem] w-[62%] -translate-y-1/2 lg:h-[18.5rem] lg:w-[64%]"
+            objectPosition="center 65%"
+            priority
+            sizes="(max-width: 1023px) 62vw, 38vw"
+          />
+
+          <HeroCollagePhoto
+            src="/hero-photo-top.jpg"
+            alt="Detail lengan dan tekstur busana Anza Fashion"
+            className="right-[8%] top-[9%] z-30 h-[11rem] w-[31%] lg:h-[12.5rem]"
+            objectPosition="center 20%"
+            sizes="(max-width: 1023px) 28vw, 18vw"
+          />
+
+          <HeroCollagePhoto
+            src="/hero-photo-bottom.jpg"
+            alt="Potret pelanggan mengenakan busana Anza Fashion"
+            className="bottom-[2%] right-[7%] z-20 h-[10rem] w-[33%] lg:h-[11.5rem]"
+            objectPosition="center 14%"
+            sizes="(max-width: 1023px) 30vw, 20vw"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroVisualV2() {
+  return (
+    <div className="relative min-h-[52vh] overflow-hidden sm:min-h-[58vh] lg:min-h-full">
+      <Image
+        src="/full-hero-utama.jpg"
+        alt="Hero utama Anza Fashion versi full image"
+        fill
+        className="object-cover object-center"
+        priority
+        sizes="(max-width: 1023px) 100vw, 52vw"
+      />
+    </div>
+  );
+}
+
 export function HeroSection() {
   return (
-    <section className="grid min-h-screen pt-20 lg:grid-cols-2">
+    <section className="grid min-h-screen overflow-hidden pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
       <div className="relative flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-12 xl:px-20">
         <div className="absolute bottom-[20%] left-0 top-[20%] hidden w-[3px] bg-[linear-gradient(to_bottom,transparent,var(--rose),transparent)] lg:block" />
         <div className="hero-fade-up" style={{ animationDelay: "100ms" }}>
@@ -265,23 +387,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="relative flex min-h-[50vh] items-center justify-center overflow-hidden bg-[var(--sand-light)] px-6 py-14 sm:px-10 lg:min-h-full">
-        <div className="relative flex h-[80%] w-full max-w-[540px] items-center justify-center border border-[rgba(201,137,122,0.3)] before:pointer-events-none before:absolute before:-inset-y-2 before:left-2 before:right-[-8px] before:border before:border-[rgba(201,137,122,0.15)] before:content-[''] sm:w-[72%]">
-          <Image
-            src="/hero-image.jpeg"
-            alt="Foto Utama - Anza Fashion"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <div className="absolute bottom-[8%] right-[3%] min-w-[130px] bg-[var(--rose)] px-6 py-5 text-center font-serif-display text-base italic text-white shadow-[0_8px_30px_rgba(139,83,71,0.25)] sm:right-[-5%]">
-          Made with Love
-          <span className="mt-1 block text-[0.7rem] not-italic uppercase tracking-[0.15em] opacity-[0.85]">
-            Handcrafted
-          </span>
-        </div>
-      </div>
+      {heroLayoutVariant === "v2" ? <HeroVisualV2 /> : <HeroVisualV1 />}
     </section>
   );
 }
