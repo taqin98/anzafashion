@@ -37,6 +37,7 @@ export type ContactItem = {
   type: "phone" | "instagram" | "location";
   label: string;
   value: string;
+  href?: string;
 };
 
 export const navLinks: NavLink[] = [
@@ -144,12 +145,23 @@ export const testimonialItems: TestimonialItem[] = [
 ];
 
 export const contactItems: ContactItem[] = [
-  { type: "phone", label: "WhatsApp", value: "0812-XXXX-XXXX" },
-  { type: "instagram", label: "Instagram", value: "@anzafashion" },
+  {
+    type: "phone",
+    label: "WhatsApp",
+    value: "0856-0006-6840",
+    href: "https://wa.me/6285600066840",
+  },
+  {
+    type: "instagram",
+    label: "Instagram",
+    value: "@anzafashionofficial",
+    href: "https://instagram.com/anzafashionofficial",
+  },
   {
     type: "location",
     label: "Lokasi",
-    value: "Jakarta Selatan, DKI Jakarta",
+    value: "Semarang, Jawa Tengah",
+    href: "https://maps.app.goo.gl/jifjMwcKwkMiRqgs8",
   },
 ];
 

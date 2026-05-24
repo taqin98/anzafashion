@@ -23,11 +23,11 @@ export function SiteLogo({
     ? "h-9 w-9 md:h-10 md:w-10"
     : "h-11 w-11 md:h-12 md:w-12";
   const titleClassName = compact
-    ? "text-sm md:text-[0.95rem]"
+    ? "text-sm leading-none md:text-[0.95rem]"
     : "text-sm md:text-base";
 
   return (
-    <span className="inline-flex items-center gap-3">
+    <span className="inline-flex items-center gap-3 leading-none">
       <span className={`inline-flex shrink-0 bg-black ${logoFrameClassName}`}>
         <Image
           src="/anza-mark.png"
@@ -38,9 +38,9 @@ export function SiteLogo({
           priority
         />
       </span>
-      <span className="flex flex-col">
+      <span className={`flex ${compact ? "justify-center" : ""} flex-col`}>
         <span
-          className={`${textColor} ${titleClassName} font-medium uppercase tracking-[0.22em]`}
+          className={`${textColor} ${titleClassName} font-bold uppercase tracking-[0.22em]`}
         >
           Anza Fashion
         </span>

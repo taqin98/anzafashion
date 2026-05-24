@@ -189,7 +189,10 @@ export function Navbar() {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-[var(--sand-light)] bg-[rgba(250,246,240,0.92)] px-5 py-4 backdrop-blur-[12px] md:px-8 xl:px-16">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-5">
-        <a href="#" className="font-serif-display text-[1.5rem] font-semibold tracking-[0.05em]">
+        <a
+          href="#"
+          className="inline-flex items-center self-center font-serif-display text-[1.5rem] font-semibold tracking-[0.05em]"
+        >
           <SiteLogo compact />
         </a>
         <ul className="hidden list-none items-center gap-10 md:flex">
@@ -507,7 +510,18 @@ export function ContactSection() {
                 <div className="mb-1 text-[0.7rem] uppercase tracking-[0.12em] text-[var(--warm-gray)]">
                   {item.label}
                 </div>
-                <div className="text-[0.92rem] text-[var(--charcoal)]">{item.value}</div>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[0.92rem] text-[var(--charcoal)] transition hover:text-[var(--rose)]"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <div className="text-[0.92rem] text-[var(--charcoal)]">{item.value}</div>
+                )}
               </div>
             </div>
           ))}
