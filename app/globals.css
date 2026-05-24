@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #faf6f0;
+  --warm-white: #fdf9f4;
+  --rose: #c9897a;
+  --rose-light: #edd5ce;
+  --rose-dark: #8b5347;
+  --terracotta: #b5603a;
+  --sand: #d4b896;
+  --sand-light: #ede0d0;
+  --charcoal: #2c2420;
+  --warm-gray: #7a6b63;
+  --soft-gray: #e8e0d8;
+  --success: #5a8a4e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(201, 137, 122, 0.18);
+}
+
+.font-serif-display {
+  font-family: var(--font-serif), serif;
+}
+
+.hero-fade-up {
+  animation: fade-up 0.7s ease forwards;
+  opacity: 0;
+}
+
+.marquee-track {
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-fade-up,
+  .marquee-track {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+

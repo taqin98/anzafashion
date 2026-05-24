@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rumah Jahit — Koleksi Eksklusif</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6F0;
+    --warm-white: #FDF9F4;
+    --rose: #C9897A;
+    --rose-light: #EDD5CE;
+    --rose-dark: #8B5347;
+    --terracotta: #B5603A;
+    --sand: #D4B896;
+    --sand-light: #EDE0D0;
+    --charcoal: #2C2420;
+    --warm-gray: #7A6B63;
+    --soft-gray: #E8E0D8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 4rem;
+    background: rgba(250,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--sand-light);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--charcoal); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--warm-gray); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+  .nav-cta {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.65rem 1.6rem;
+    border: 1px solid var(--rose);
+    color: var(--rose); background: transparent;
+    cursor: pointer; transition: all 0.3s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--rose); color: white; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 5rem 6rem 7rem;
+    position: relative;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; left: 0; top: 20%; bottom: 20%;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, var(--rose), transparent);
+  }
+  .hero-tag {
+    font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before {
+    content: ''; display: block;
+    width: 30px; height: 1px; background: var(--rose);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5.5vw, 5rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--charcoal); margin-bottom: 0.5rem;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--rose);
+    font-weight: 300;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem; color: var(--warm-gray);
+    line-height: 1.75; margin: 1.75rem 0 2.5rem;
+    max-width: 380px;
+  }
+  .hero-btns { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    padding: 0.9rem 2.2rem;
+    background: var(--rose); color: white;
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: none; cursor: pointer; transition: all 0.3s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--rose-dark); transform: translateY(-1px); }
+  .btn-ghost {
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--charcoal); text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--rose); }
+  .btn-ghost::after { content: '→'; }
+  .hero-stats {
+    margin-top: 4rem; display: flex; gap: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--soft-gray);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300; color: var(--charcoal);
+  }
+  .stat-label {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--warm-gray); margin-top: 0.2rem;
+  }
+  .hero-right {
+    background: var(--sand-light);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-img-frame {
+    width: 72%; height: 80%;
+    border: 1px solid rgba(201,137,122,0.3);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-img-frame::before {
+    content: '';
+    position: absolute; top: -8px; left: -8px; right: 8px; bottom: 8px;
+    border: 1px solid rgba(201,137,122,0.15);
+    pointer-events: none;
+  }
+  .hero-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    color: var(--warm-gray);
+  }
+  .hero-placeholder svg { width: 64px; height: 64px; opacity: 0.4; }
+  .hero-placeholder p {
+    font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .hero-badge {
+    position: absolute; bottom: 8%; right: -5%;
+    background: var(--rose);
+    color: white; padding: 1.2rem 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-style: italic;
+    text-align: center; min-width: 130px;
+    box-shadow: 0 8px 30px rgba(139,83,71,0.25);
+  }
+  .hero-badge span {
+    display: block; font-family: 'DM Sans', sans-serif;
+    font-style: normal; font-size: 0.7rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-top: 0.3rem; opacity: 0.85;
+  }
+
+  /* DIVIDER */
+  .marquee-strip {
+    background: var(--charcoal); color: var(--sand-light);
+    padding: 0.9rem 0; overflow: hidden; white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 22s linear infinite;
+    font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ABOUT */
+  .about {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; padding: 7rem 7rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative; padding-right: 4rem;
+  }
+  .about-img-main {
+    width: 75%; aspect-ratio: 3/4;
+    background: var(--rose-light);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .about-img-accent {
+    width: 45%; aspect-ratio: 4/3;
+    background: var(--sand-light);
+    position: absolute; right: 5%; bottom: -8%;
+    border: 4px solid var(--cream);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .img-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--warm-gray); opacity: 0.5;
+  }
+  .img-placeholder svg { width: 40px; height: 40px; }
+  .img-placeholder small {
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .about-content { padding-left: 2rem; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-tag::before {
+    content: ''; display: block;
+    width: 25px; height: 1px; background: var(--rose);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300; line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .about-text {
+    font-size: 0.92rem; color: var(--warm-gray);
+    line-height: 1.85; margin-bottom: 1.25rem;
+  }
+  .about-signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-style: italic;
+    color: var(--rose); margin-top: 2rem;
+  }
+
+  /* KOLEKSI */
+  .koleksi { padding: 7rem; background: var(--warm-white); }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3.5rem;
+  }
+  .koleksi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .koleksi-card {
+    position: relative; cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+  .koleksi-card:hover { transform: translateY(-4px); }
+  .koleksi-card.featured {
+    grid-column: span 1; grid-row: span 2;
+  }
+  .card-img {
+    background: var(--sand-light);
+    aspect-ratio: 3/4; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .koleksi-card.featured .card-img { height: 100%; aspect-ratio: unset; }
+  .card-img-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+    color: var(--warm-gray); opacity: 0.45;
+  }
+  .card-img-placeholder svg { width: 48px; height: 48px; }
+  .card-img-placeholder small {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(44,36,32,0.65) 0%, transparent 55%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 1.5rem;
+  }
+  .koleksi-card:hover .card-overlay { opacity: 1; }
+  .overlay-btn {
+    font-size: 0.73rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: white; border: 1px solid rgba(255,255,255,0.6);
+    padding: 0.55rem 1.2rem; text-decoration: none;
+    transition: all 0.3s;
+  }
+  .overlay-btn:hover { background: white; color: var(--charcoal); }
+  .card-badge {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--rose); color: white;
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+  }
+  .card-info { padding: 1rem 0 0.5rem; }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .card-cat {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--rose);
+    margin-top: 0.4rem;
+  }
+
+  /* LAYANAN */
+  .layanan {
+    padding: 6rem 7rem;
+    display: grid; grid-template-columns: 1fr 1.6fr;
+    gap: 6rem; align-items: center;
+  }
+  .layanan-intro .section-title { margin-bottom: 1rem; }
+  .layanan-text {
+    font-size: 0.92rem; color: var(--warm-gray);
+    line-height: 1.85; margin-bottom: 2rem;
+  }
+  .layanan-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .layanan-item {
+    display: grid; grid-template-columns: 3rem 1fr;
+    gap: 1.25rem; align-items: start;
+    padding: 1.5rem;
+    border: 1px solid var(--soft-gray);
+    background: var(--warm-white);
+    transition: border-color 0.3s;
+  }
+  .layanan-item:hover { border-color: var(--rose-light); }
+  .layanan-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300;
+    color: var(--rose-light); line-height: 1;
+  }
+  .layanan-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; margin-bottom: 0.4rem;
+  }
+  .layanan-desc {
+    font-size: 0.83rem; color: var(--warm-gray);
+    line-height: 1.7;
+  }
+
+  /* TESTIMONIAL */
+  .testimonial {
+    padding: 7rem; background: var(--charcoal);
+    color: var(--cream);
+  }
+  .testi-header { text-align: center; margin-bottom: 4rem; }
+  .testi-header .section-tag { justify-content: center; }
+  .testi-header .section-tag::before { display: none; }
+  .testi-header .section-title { color: var(--cream); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .testi-card {
+    padding: 2rem;
+    border: 1px solid rgba(212,184,150,0.2);
+    background: rgba(255,255,255,0.03);
+    transition: border-color 0.3s;
+  }
+  .testi-card:hover { border-color: rgba(201,137,122,0.4); }
+  .testi-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; line-height: 1;
+    color: var(--rose); margin-bottom: 0.5rem;
+  }
+  .testi-text {
+    font-size: 0.9rem; color: rgba(250,246,240,0.75);
+    line-height: 1.8; margin-bottom: 1.5rem;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+  }
+  .testi-name {
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--sand);
+  }
+  .testi-stars { color: var(--rose); margin-bottom: 1rem; font-size: 0.85rem; }
+
+  /* KONTAK */
+  .kontak {
+    padding: 7rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: start;
+  }
+  .kontak-info .section-title { margin-bottom: 1rem; }
+  .kontak-text {
+    font-size: 0.92rem; color: var(--warm-gray);
+    line-height: 1.85; margin-bottom: 2.5rem;
+  }
+  .kontak-items { display: flex; flex-direction: column; gap: 1.25rem; }
+  .kontak-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .kontak-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--rose-light);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .kontak-icon svg { width: 16px; height: 16px; stroke: var(--rose-dark); fill: none; stroke-width: 1.8; }
+  .kontak-detail-label {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--warm-gray); margin-bottom: 0.2rem;
+  }
+  .kontak-detail-val {
+    font-size: 0.92rem; color: var(--charcoal);
+  }
+  .kontak-form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+  .form-input, .form-textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; color: var(--charcoal);
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--soft-gray);
+    background: var(--warm-white);
+    outline: none; resize: none;
+    transition: border-color 0.3s;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--rose); }
+  .form-textarea { min-height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit {
+    padding: 1rem 2.5rem;
+    background: var(--rose); color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    border: none; cursor: pointer; align-self: flex-start;
+    transition: all 0.3s;
+  }
+  .btn-submit:hover { background: var(--rose-dark); transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal); color: rgba(250,246,240,0.55);
+    padding: 3rem 7rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--cream); text-decoration: none;
+  }
+  .footer-copy { font-size: 0.78rem; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(250,246,240,0.45); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left > * {
+    animation: fadeUp 0.7s ease forwards;
+    opacity: 0;
+  }
+  .hero-tag { animation-delay: 0.1s; }
+  .hero-title { animation-delay: 0.25s; }
+  .hero-subtitle { animation-delay: 0.4s; }
+  .hero-btns { animation-delay: 0.55s; }
+  .hero-stats { animation-delay: 0.7s; }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 7rem 2.5rem 4rem; }
+    .hero-right { min-height: 50vh; }
+    .about, .layanan, .kontak { grid-template-columns: 1fr; padding: 5rem 2.5rem; gap: 3rem; }
+    .koleksi { padding: 5rem 2.5rem; }
+    .koleksi-grid { grid-template-columns: repeat(2, 1fr); }
+    .koleksi-card.featured { grid-row: span 1; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .testimonial { padding: 5rem 2.5rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Rumah Jahit</a>
+  <ul class="nav-links">
+    <li><a href="#koleksi">Koleksi</a></li>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#tentang">Tentang</a></li>
+  </ul>
+  <a href="#kontak" class="nav-cta">Pesan Sekarang</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Koleksi Eksklusif 2025</div>
+    <h1 class="hero-title">Jahitan <em>Tangan</em><br>Penuh Kasih</h1>
+    <p class="hero-subtitle">Setiap helai benang dirajut dengan kesabaran dan ketelitian. Kami menjahit bukan sekadar baju — kami mewujudkan gaya Anda.</p>
+    <div class="hero-btns">
+      <a href="#koleksi" class="btn-primary">Lihat Koleksi</a>
+      <a href="#kontak" class="btn-ghost">Pesan Custom</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Pelanggan Puas</div>
+      </div>
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Tahun Pengalaman</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Jahit Tangan</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-frame">
+      <!-- Ganti src di bawah dengan foto produk utama Anda -->
+      <div class="hero-placeholder">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M20 8h24l6 12v34a2 2 0 01-2 2H16a2 2 0 01-2-2V20L20 8z"/>
+          <path d="M22 8c0 6 4 10 10 10s10-4 10-10"/>
+          <circle cx="32" cy="36" r="8" stroke-dasharray="4 2"/>
+        </svg>
+        <p>Foto Produk Utama</p>
+      </div>
+    </div>
+    <div class="hero-badge">
+      Made with Love
+      <span>Handcrafted</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <span class="marquee-inner">
+    &nbsp;&nbsp;✦ Jahit Custom &nbsp;&nbsp;✦ Kualitas Premium &nbsp;&nbsp;✦ Desain Eksklusif &nbsp;&nbsp;✦ Pengerjaan Teliti &nbsp;&nbsp;✦ Kepuasan Terjamin &nbsp;&nbsp;✦ Jahit Custom &nbsp;&nbsp;✦ Kualitas Premium &nbsp;&nbsp;✦ Desain Eksklusif &nbsp;&nbsp;✦ Pengerjaan Teliti &nbsp;&nbsp;✦ Kepuasan Terjamin &nbsp;&nbsp;✦ Jahit Custom &nbsp;&nbsp;✦ Kualitas Premium &nbsp;&nbsp;✦ Desain Eksklusif &nbsp;&nbsp;✦ Pengerjaan Teliti &nbsp;&nbsp;✦ Kepuasan Terjamin &nbsp;&nbsp;
+  </span>
+</div>
+
+<!-- TENTANG -->
+<section class="about" id="tentang">
+  <div class="about-visual">
+    <div class="about-img-main">
+      <!-- Ganti dengan foto penjahit/proses menjahit -->
+      <div class="img-placeholder">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="20" cy="12" r="6"/>
+          <path d="M8 36c0-6.627 5.373-12 12-12h0c6.627 0 12 5.373 12 12"/>
+        </svg>
+        <small>Foto Penjahit</small>
+      </div>
+    </div>
+    <div class="about-img-accent">
+      <!-- Ganti dengan foto detail jahitan/kain -->
+      <div class="img-placeholder">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="6" y="6" width="28" height="28" rx="1"/>
+          <path d="M6 20h28M20 6v28"/>
+        </svg>
+        <small>Detail Kain</small>
+      </div>
+    </div>
+  </div>
+  <div class="about-content">
+    <div class="section-tag">Tentang Kami</div>
+    <h2 class="section-title">Menjahit Adalah<br>Seni Kami</h2>
+    <p class="about-text">Berawal dari kecintaan pada dunia fashion dan keterampilan tangan yang terus diasah selama bertahun-tahun, kami hadir untuk memberikan layanan jahit berkualitas tinggi yang disesuaikan dengan kebutuhan Anda.</p>
+    <p class="about-text">Setiap pakaian dikerjakan dengan penuh perhatian pada detail — dari pemilihan bahan, pola, hingga jahitan akhir. Kami percaya bahwa busana yang baik bukan hanya soal tampilan, tetapi juga soal kenyamanan dan kepercayaan diri.</p>
+    <div class="about-signature">Selamat datang di Rumah Jahit kami ✦</div>
+  </div>
+</section>
+
+<!-- KOLEKSI -->
+<section class="koleksi" id="koleksi">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Galeri Karya</div>
+      <h2 class="section-title">Koleksi Pilihan</h2>
+    </div>
+    <a href="#kontak" class="btn-ghost" style="text-decoration:none; display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--charcoal); transition: color 0.3s;">Pesan Custom →</a>
+  </div>
+  <div class="koleksi-grid">
+
+    <!-- Card 1 – Featured -->
+    <div class="koleksi-card featured">
+      <div class="card-img">
+        <!-- Ganti dengan foto produk 1 -->
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M14 6h20l8 10v26a2 2 0 01-2 2H8a2 2 0 01-2-2V16L14 6z"/>
+            <path d="M16 6c0 4.418 3.582 8 8 8s8-3.582 8-8"/>
+          </svg>
+          <small>Foto Produk 1</small>
+        </div>
+        <div class="card-overlay">
+          <a href="#kontak" class="overlay-btn">Pesan Ini</a>
+        </div>
+        <div class="card-badge">Terlaris</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Kebaya Modern Elegan</div>
+        <div class="card-cat">Kebaya · Formal</div>
+        <div class="card-price">Mulai Rp 350.000</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="koleksi-card">
+      <div class="card-img">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="10" y="6" width="28" height="36" rx="2"/>
+            <path d="M10 18h28"/>
+          </svg>
+          <small>Foto Produk 2</small>
+        </div>
+        <div class="card-overlay">
+          <a href="#kontak" class="overlay-btn">Pesan Ini</a>
+        </div>
+        <div class="card-badge" style="background: var(--terracotta);">Baru</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Dress Batik Casual</div>
+        <div class="card-cat">Dress · Kasual</div>
+        <div class="card-price">Mulai Rp 280.000</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="koleksi-card">
+      <div class="card-img">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M8 8l10 6h12l10-6v34H8V8z"/>
+            <path d="M18 14v28M30 14v28"/>
+          </svg>
+          <small>Foto Produk 3</small>
+        </div>
+        <div class="card-overlay">
+          <a href="#kontak" class="overlay-btn">Pesan Ini</a>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Blouse Tenun Premium</div>
+        <div class="card-cat">Blouse · Semi-formal</div>
+        <div class="card-price">Mulai Rp 220.000</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="koleksi-card">
+      <div class="card-img">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M24 8c-8 0-14 6-14 14v18h28V22c0-8-6-14-14-14z"/>
+            <path d="M16 24h16"/>
+          </svg>
+          <small>Foto Produk 4</small>
+        </div>
+        <div class="card-overlay">
+          <a href="#kontak" class="overlay-btn">Pesan Ini</a>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Gamis Brokat Mewah</div>
+        <div class="card-cat">Gamis · Pesta</div>
+        <div class="card-price">Mulai Rp 450.000</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LAYANAN -->
+<section class="layanan" id="layanan">
+  <div class="layanan-intro">
+    <div class="section-tag">Layanan Kami</div>
+    <h2 class="section-title">Apa yang<br>Kami Tawarkan</h2>
+    <p class="layanan-text">Dari jahit custom sesuai selera hingga renovasi baju lama — kami siap membantu dengan pengerjaan rapi dan tepat waktu.</p>
+    <a href="#kontak" class="btn-primary" style="text-decoration:none; display:inline-block;">Konsultasi Gratis</a>
+  </div>
+  <div class="layanan-list">
+    <div class="layanan-item">
+      <div class="layanan-num">01</div>
+      <div>
+        <div class="layanan-name">Jahit Custom</div>
+        <div class="layanan-desc">Buat pakaian dari nol sesuai model, ukuran, dan kain pilihan Anda. Konsultasi desain gratis.</div>
+      </div>
+    </div>
+    <div class="layanan-item">
+      <div class="layanan-num">02</div>
+      <div>
+        <div class="layanan-name">Permak & Renovasi</div>
+        <div class="layanan-desc">Perbaiki atau ubah ukuran pakaian lama agar kembali muat dan tampil segar seperti baru.</div>
+      </div>
+    </div>
+    <div class="layanan-item">
+      <div class="layanan-num">03</div>
+      <div>
+        <div class="layanan-name">Busana Pesta & Pernikahan</div>
+        <div class="layanan-desc">Gaun pengantin, bridesmaid, kebaya akad, dan busana pesta spesial untuk momen tak terlupakan.</div>
+      </div>
+    </div>
+    <div class="layanan-item">
+      <div class="layanan-num">04</div>
+      <div>
+        <div class="layanan-name">Seragam & Pesanan Massal</div>
+        <div class="layanan-desc">Tersedia untuk pesanan dalam jumlah banyak — seragam kantor, sekolah, atau komunitas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="testi-header">
+    <div class="section-tag">Testimoni</div>
+    <h2 class="section-title" style="color: var(--cream)">Kata Mereka</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">&ldquo;</div>
+      <p class="testi-text">Hasilnya melebihi ekspektasi! Jahitannya sangat rapi dan pas di badan. Pasti order lagi untuk seragam kerja kami.</p>
+      <div class="testi-name">— Rina S., Jakarta</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">&ldquo;</div>
+      <p class="testi-text">Gaun pesta saya jadi sempurna. Dikerjakan cepat dan sesuai desain yang saya inginkan. Sangat recommended!</p>
+      <div class="testi-name">— Dewi P., Bekasi</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">&ldquo;</div>
+      <p class="testi-text">Sudah 3 kali order kebaya di sini. Kualitasnya konsisten bagus dan harga sangat terjangkau. Terima kasih!</p>
+      <div class="testi-name">— Siti A., Depok</div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="kontak" id="kontak">
+  <div class="kontak-info">
+    <div class="section-tag">Hubungi Kami</div>
+    <h2 class="section-title">Mari Mulai<br>Menjahit Bersama</h2>
+    <p class="kontak-text">Konsultasikan kebutuhan jahit Anda bersama kami. Ceritakan model yang Anda impikan, kami wujudkan.</p>
+    <div class="kontak-items">
+      <div class="kontak-item">
+        <div class="kontak-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.5 9.12a19.79 19.79 0 01-3.07-8.63A2 2 0 012.41 2h3a2 2 0 012 1.72c.13 1 .37 1.97.72 2.9a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.18-1.18a2 2 0 012.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="kontak-detail-label">WhatsApp</div>
+          <div class="kontak-detail-val">0812-XXXX-XXXX</div>
+        </div>
+      </div>
+      <div class="kontak-item">
+        <div class="kontak-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <div class="kontak-detail-label">Instagram</div>
+          <div class="kontak-detail-val">@rumahjahit.anda</div>
+        </div>
+      </div>
+      <div class="kontak-item">
+        <div class="kontak-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="kontak-detail-label">Lokasi</div>
+          <div class="kontak-detail-val">Jakarta Selatan, DKI Jakarta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <form class="kontak-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nama Lengkap</label>
+          <input type="text" class="form-input" placeholder="Nama Anda">
+        </div>
+        <div class="form-group">
+          <label class="form-label">No. WhatsApp</label>
+          <input type="tel" class="form-input" placeholder="08xx-xxxx-xxxx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Jenis Layanan</label>
+        <select class="form-input" style="appearance:none; cursor:pointer; background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%237A6B63%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat:no-repeat; background-position: right 1rem center;">
+          <option value="">Pilih Layanan...</option>
+          <option>Jahit Custom</option>
+          <option>Permak / Renovasi</option>
+          <option>Busana Pesta & Pernikahan</option>
+          <option>Seragam & Pesanan Massal</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Keterangan</label>
+        <textarea class="form-textarea" placeholder="Ceritakan model yang Anda inginkan, ukuran, bahan, warna, dll..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Kirim Pesanan</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Rumah Jahit</a>
+  <p class="footer-copy">© 2025 Rumah Jahit · Dibuat dengan ♥</p>
+  <div class="footer-links">
+    <a href="#koleksi">Koleksi</a>
+    <a href="#layanan">Layanan</a>
+    <a href="#kontak">Kontak</a>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = '✓ Pesan Terkirim!';
+    btn.style.background = '#5a8a4e';
+    setTimeout(() => {
+      btn.textContent = 'Kirim Pesanan';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.koleksi-card, .layanan-item, .testi-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
