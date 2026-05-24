@@ -113,6 +113,17 @@ export const collectionItems: CollectionItem[] = [
     badge: "Baru",
     badgeTone: "terracotta",
   },
+  {
+    name: "Setelan Kulot Modern",
+    category: "Setelan · Kasual",
+    price: "Mulai Rp 325.000",
+    label: "Foto Produk 6",
+    icon: "blouse",
+    image: "/products/product-6-1.jpeg",
+    images: ["/products/product-6-1.jpeg", "/products/product-6-2.jpeg"],
+    badge: "Baru",
+    badgeTone: "rose",
+  },
 ];
 
 export const serviceItems: ServiceItem[] = [
