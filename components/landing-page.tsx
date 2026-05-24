@@ -514,6 +514,7 @@ export function CollectionSection() {
                 <div className="pointer-events-none absolute inset-0 flex items-end bg-[linear-gradient(to_top,rgba(44,36,32,0.65)_0%,transparent_55%)] p-6 opacity-0 transition group-hover:opacity-100">
                   <a
                     href="#kontak"
+                    onClick={(e) => e.stopPropagation()}
                     className="pointer-events-auto border border-white/60 px-5 py-2.5 text-[0.73rem] uppercase tracking-[0.15em] text-white transition hover:bg-white hover:text-[var(--charcoal)]"
                   >
                     Pesan Ini

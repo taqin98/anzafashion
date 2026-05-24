@@ -90,7 +90,7 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 220.000",
     label: "Foto Produk 3",
     icon: "blouse",
-    image: "/products/product-3-1.jpeg",
+    image: "/products/product-3-2.jpeg",
     images: ["/products/product-3-1.jpeg", "/products/product-3-2.jpeg", "/products/product-3-3.jpeg", "/products/product-3-4.jpeg"],
   },
   {
