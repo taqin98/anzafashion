@@ -329,14 +329,15 @@ function HeroVisualV1() {
 
 function HeroVisualV2() {
   return (
-    <div className="relative min-h-[52vh] overflow-hidden sm:min-h-[58vh] lg:min-h-full">
+    <div className="flex items-start justify-center bg-[var(--warm-white)] px-0 pb-6 pt-2 sm:pb-8 sm:pt-3 lg:pb-0 lg:pt-0">
       <Image
         src="/full-hero-utama.jpg"
         alt="Hero utama Anza Fashion versi full image"
-        fill
-        className="object-cover object-center"
+        width={4496}
+        height={4500}
         priority
-        sizes="(max-width: 1023px) 100vw, 52vw"
+        sizes="(max-width: 639px) 100vw, (max-width: 1023px) 92vw, (max-width: 1535px) 54vw, 52rem"
+        className="block h-auto w-full max-w-[34rem] object-contain sm:max-w-[38rem] md:max-w-[42rem] lg:max-w-none xl:max-w-[50rem] 2xl:max-w-[52rem]"
       />
     </div>
   );
