@@ -1,4 +1,4 @@
-# Anza Fashion
+# Anza Fashion Landing Page
 
 Landing page katalog jahitan untuk **Anza Fashion**, dibangun dengan **Next.js App Router**, **TypeScript**, dan **Tailwind CSS**.
 
