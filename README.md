@@ -2,7 +2,7 @@
 
 Landing page katalog jahitan untuk **Anza Fashion**, dibangun dengan **Next.js App Router**, **TypeScript**, dan **Tailwind CSS**.
 
-Project ini merupakan hasil migrasi dari file HTML statis `katalog-jahitan.html` menjadi aplikasi Next.js yang lebih rapi, reusable, dan siap deploy ke Vercel.
+Project ini merupakan hasil migrasi dari file HTML statis yang kini diarsipkan di `references/katalog-jahitan.original.html` menjadi aplikasi Next.js yang lebih rapi, reusable, dan siap deploy ke Vercel.
 
 ## Preview
 
@@ -146,5 +146,5 @@ npx vercel@latest --prod
 ## Notes
 
 - Project menggunakan `next/font/google`, jadi proses build butuh akses internet untuk mengambil font.
-- File `katalog-jahitan.html` dan `references/katalog-jahitan.original.html` disimpan sebagai referensi desain awal, bukan entrypoint aplikasi.
+- File `references/katalog-jahitan.original.html` disimpan sebagai referensi desain awal, bukan entrypoint aplikasi.
 - Branding aktif di aplikasi sekarang adalah **Anza Fashion**.
