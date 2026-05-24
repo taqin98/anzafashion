@@ -69,7 +69,7 @@ export const collectionItems: CollectionItem[] = [
     label: "Foto Produk 1",
     icon: "kebaya",
     image: "/products/product-1-1.jpeg",
-    images: ["/products/product-1-1.jpeg", "/products/product-1-2.jpeg", "/products/product-1-3.jpeg"],
+    images: ["/products/product-1-1.jpeg", "/products/product-1-2.jpeg", "/products/product-1-3.jpeg", "/products/product-1-4.jpeg"],
     badge: "Baru",
     badgeTone: "rose",
   },
