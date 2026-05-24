@@ -102,6 +102,17 @@ export const collectionItems: CollectionItem[] = [
     image: "/products/product-4-1.jpeg",
     images: ["/products/product-4-1.jpeg", "/products/product-4-2.jpeg", "/products/product-4-3.jpeg", "/products/product-4-4.jpeg", "/products/product-4-5.jpeg"],
   },
+  {
+    name: "Kemeja Bordir Eksklusif",
+    category: "Kemeja · Formal",
+    price: "Mulai Rp 300.000",
+    label: "Foto Produk 5",
+    icon: "blouse",
+    image: "/products/product-5-1.jpeg",
+    images: ["/products/product-5-1.jpeg", "/products/product-5-2.jpeg", "/products/product-5-3.jpeg", "/products/product-5-4.jpeg"],
+    badge: "Baru",
+    badgeTone: "terracotta",
+  },
 ];
 
 export const serviceItems: ServiceItem[] = [
