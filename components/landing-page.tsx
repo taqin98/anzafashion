@@ -1,4 +1,5 @@
 import type { SVGProps } from "react";
+import Image from "next/image";
 
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
@@ -266,10 +267,12 @@ export function HeroSection() {
 
       <div className="relative flex min-h-[50vh] items-center justify-center overflow-hidden bg-[var(--sand-light)] px-6 py-14 sm:px-10 lg:min-h-full">
         <div className="relative flex h-[80%] w-full max-w-[540px] items-center justify-center border border-[rgba(201,137,122,0.3)] before:pointer-events-none before:absolute before:-inset-y-2 before:left-2 before:right-[-8px] before:border before:border-[rgba(201,137,122,0.15)] before:content-[''] sm:w-[72%]">
-          <PlaceholderBox
-            icon={<HeroPlaceholderIcon className="size-full" />}
-            label="Foto Produk Utama"
-            size="hero"
+          <Image
+            src="/hero-image.jpeg"
+            alt="Foto Utama - Anza Fashion"
+            fill
+            className="object-cover"
+            priority
           />
         </div>
         <div className="absolute bottom-[8%] right-[3%] min-w-[130px] bg-[var(--rose)] px-6 py-5 text-center font-serif-display text-base italic text-white shadow-[0_8px_30px_rgba(139,83,71,0.25)] sm:right-[-5%]">
