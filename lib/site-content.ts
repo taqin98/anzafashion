@@ -68,8 +68,8 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 350.000",
     label: "Foto Produk 1",
     icon: "kebaya",
-    image: "/product-1.jpeg",
-    images: ["/product-1.jpeg", "/product-1-2.jpeg", "/product-1-3.jpeg"],
+    image: "/products/product-1-1.jpeg",
+    images: ["/products/product-1-1.jpeg", "/products/product-1-2.jpeg", "/products/product-1-3.jpeg"],
     badge: "Baru",
     badgeTone: "rose",
   },
@@ -79,6 +79,9 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 280.000",
     label: "Foto Produk 2",
     icon: "dress",
+    image: "/products/product-2-1.jpeg",
+    images: ["/products/product-2-1.jpeg", "/products/product-2-2.jpeg", "/products/product-2-3.jpeg", "/products/product-2-4.jpeg"],
+    badge: "Baru",
     badgeTone: "terracotta",
   },
   {
@@ -87,6 +90,8 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 220.000",
     label: "Foto Produk 3",
     icon: "blouse",
+    image: "/products/product-3-1.jpeg",
+    images: ["/products/product-3-1.jpeg", "/products/product-3-2.jpeg", "/products/product-3-3.jpeg", "/products/product-3-4.jpeg"],
   },
   {
     name: "Gamis Brokat Mewah",
@@ -94,6 +99,8 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 450.000",
     label: "Foto Produk 4",
     icon: "gamis",
+    image: "/products/product-4-1.jpeg",
+    images: ["/products/product-4-1.jpeg", "/products/product-4-2.jpeg", "/products/product-4-3.jpeg", "/products/product-4-4.jpeg", "/products/product-4-5.jpeg"],
   },
 ];
 

@@ -270,7 +270,7 @@ function HeroVisualV1() {
             <div className="absolute left-5 top-8 h-[15rem] w-[68%] border-[3px] border-[rgba(44,36,32,0.22)]" />
 
             <HeroCollagePhoto
-              src="/hero-photo-middle.jpg"
+              src="/hero/hero-photo-middle.jpg"
               alt="Detail busana Anza Fashion"
               className="left-6 top-10 z-10 h-[15rem] w-[68%]"
               objectPosition="center 78%"
@@ -279,7 +279,7 @@ function HeroVisualV1() {
             />
 
             <HeroCollagePhoto
-              src="/hero-photo-bottom.jpg"
+              src="/hero/hero-photo-bottom.jpg"
               alt="Potret pelanggan Anza Fashion"
               className="bottom-0 right-0 z-20 h-[10rem] w-[48%]"
               objectPosition="center 18%"
@@ -301,7 +301,7 @@ function HeroVisualV1() {
           </div>
 
           <HeroCollagePhoto
-            src="/hero-photo-middle.jpg"
+            src="/hero/hero-photo-middle.jpg"
             alt="Foto utama koleksi Anza Fashion"
             className="left-[19%] top-[41%] z-20 h-[16.5rem] w-[62%] -translate-y-1/2 lg:h-[18.5rem] lg:w-[64%]"
             objectPosition="center 65%"
@@ -310,7 +310,7 @@ function HeroVisualV1() {
           />
 
           <HeroCollagePhoto
-            src="/hero-photo-top.jpg"
+            src="/hero/hero-photo-top.jpg"
             alt="Detail lengan dan tekstur busana Anza Fashion"
             className="right-[8%] top-[9%] z-30 h-[11rem] w-[31%] lg:h-[12.5rem]"
             objectPosition="center 20%"
@@ -318,7 +318,7 @@ function HeroVisualV1() {
           />
 
           <HeroCollagePhoto
-            src="/hero-photo-bottom.jpg"
+            src="/hero/hero-photo-bottom.jpg"
             alt="Potret pelanggan mengenakan busana Anza Fashion"
             className="bottom-[2%] right-[7%] z-20 h-[10rem] w-[33%] lg:h-[11.5rem]"
             objectPosition="center 14%"
@@ -334,7 +334,7 @@ function HeroVisualV2() {
   return (
     <div className="flex items-start justify-center bg-[var(--warm-white)] px-0 pb-6 pt-2 sm:pb-8 sm:pt-3 lg:pb-0 lg:pt-0">
       <Image
-        src="/full-hero-utama.jpg"
+        src="/hero/full-hero-utama.jpg"
         alt="Hero utama Anza Fashion versi full image"
         width={4496}
         height={4500}

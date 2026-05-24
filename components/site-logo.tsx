@@ -30,7 +30,7 @@ export function SiteLogo({
     <span className="inline-flex items-center gap-3 leading-none">
       <span className={`inline-flex shrink-0 bg-black ${logoFrameClassName}`}>
         <Image
-          src="/anza-mark.png"
+          src="/brand/anza-mark.png"
           alt="Anza Fashion logo"
           width={500}
           height={500}
