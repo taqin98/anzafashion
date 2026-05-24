@@ -16,6 +16,8 @@ export type CollectionItem = {
   price: string;
   label: string;
   icon: CollectionIcon;
+  image?: string;
+  images?: string[];
   badge?: string;
   badgeTone?: "rose" | "terracotta";
 };
@@ -66,7 +68,9 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 350.000",
     label: "Foto Produk 1",
     icon: "kebaya",
-    badge: "Terlaris",
+    image: "/product-1.jpeg",
+    images: ["/product-1.jpeg", "/product-1-2.jpeg", "/product-1-3.jpeg"],
+    badge: "Baru",
     badgeTone: "rose",
   },
   {
@@ -75,7 +79,6 @@ export const collectionItems: CollectionItem[] = [
     price: "Mulai Rp 280.000",
     label: "Foto Produk 2",
     icon: "dress",
-    badge: "Baru",
     badgeTone: "terracotta",
   },
   {

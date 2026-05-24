@@ -1,6 +1,9 @@
-import type { SVGProps } from "react";
+"use client";
+
+import { useState, type SVGProps } from "react";
 import Image from "next/image";
 
+import { CollectionModal } from "@/components/collection-modal";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
 import { SiteLogo } from "@/components/site-logo";
@@ -455,6 +458,16 @@ export function AboutSection() {
 }
 
 export function CollectionSection() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalImages, setModalImages] = useState<string[]>([]);
+  const [modalProductName, setModalProductName] = useState("");
+
+  function openModal(images: string[], productName: string) {
+    setModalImages(images);
+    setModalProductName(productName);
+    setModalOpen(true);
+  }
+
   return (
     <section id="koleksi" className="bg-[var(--warm-white)] px-6 py-20 sm:px-10 lg:px-12 xl:px-28">
       <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -466,18 +479,37 @@ export function CollectionSection() {
       </div>
 
       <div className="grid grid-cols-3 gap-4 sm:gap-6">
-        {collectionItems.map((item, index) => (
+        {collectionItems.map((item, index) => {
+          const cardImage = item.image || item.images?.[0];
+          const hasModal = item.images && item.images.length > 0;
+
+          return (
           <Reveal key={item.name} delayMs={index * 120}>
-            <article className="group h-full cursor-pointer transition duration-300 hover:-translate-y-1">
+            <article
+              className="group h-full cursor-pointer transition duration-300 hover:-translate-y-1"
+              onClick={() => {
+                if (hasModal) openModal(item.images!, item.name);
+              }}
+            >
               <div className="relative aspect-square overflow-hidden bg-[var(--sand-light)]">
-                <div className="flex size-full items-center justify-center">
-                  <div className="flex flex-col items-center gap-3 text-[var(--warm-gray)] opacity-[0.45]">
-                    <CollectionPlaceholderIcon icon={item.icon} className="size-12" />
-                    <small className="text-[0.7rem] uppercase tracking-[0.1em]">
-                      {item.label}
-                    </small>
+                {cardImage ? (
+                  <Image
+                    src={cardImage}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 639px) 30vw, (max-width: 1023px) 29vw, 28vw"
+                  />
+                ) : (
+                  <div className="flex size-full items-center justify-center">
+                    <div className="flex flex-col items-center gap-3 text-[var(--warm-gray)] opacity-[0.45]">
+                      <CollectionPlaceholderIcon icon={item.icon} className="size-12" />
+                      <small className="text-[0.7rem] uppercase tracking-[0.1em]">
+                        {item.label}
+                      </small>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="pointer-events-none absolute inset-0 flex items-end bg-[linear-gradient(to_top,rgba(44,36,32,0.65)_0%,transparent_55%)] p-6 opacity-0 transition group-hover:opacity-100">
                   <a
@@ -513,8 +545,16 @@ export function CollectionSection() {
               </div>
             </article>
           </Reveal>
-        ))}
+          );
+        })}
       </div>
+
+      <CollectionModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        images={modalImages}
+        productName={modalProductName}
+      />
     </section>
   );
 }
