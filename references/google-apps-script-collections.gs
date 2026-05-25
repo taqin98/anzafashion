@@ -1,4 +1,5 @@
 const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID";
+const ANZA_SECRET = "";
 const COLLECTIONS_SHEET_NAME = "collections";
 const COLLECTION_FIELDS = [
   "name",
@@ -144,7 +145,10 @@ function doPost(event) {
       });
     }
 
+    validateContactSecret(payload.secret);
     validateContactPayload(payload);
+
+    delete payload.secret;
 
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ensureContactRequestsSheet(spreadsheet);
@@ -264,11 +268,22 @@ function parseJsonBody(event) {
 
   return {
     action: normalizeString(payload.action),
+    secret: normalizeString(payload.secret),
     full_name: normalizeString(payload.fullName),
     phone_number: normalizeString(payload.phoneNumber),
     service_type: normalizeString(payload.serviceType),
     description: normalizeString(payload.description),
   };
+}
+
+function validateContactSecret(secret) {
+  if (!ANZA_SECRET) {
+    return;
+  }
+
+  if (secret !== ANZA_SECRET) {
+    throw new Error("Invalid contact form secret.");
+  }
 }
 
 function validateContactPayload(payload) {

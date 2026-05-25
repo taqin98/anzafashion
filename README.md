@@ -223,6 +223,14 @@ Gunakan host gambar yang benar-benar dipakai URL pada kolom `image` atau `images
 Sheet form kontak yang dibuat otomatis bernama `contact_requests` dengan field:
 `submitted_at`, `full_name`, `phone_number`, `service_type`, `description`, `status`, `source`
 
+Untuk proteksi tambahan, Anda bisa mengaktifkan shared secret antara Vercel dan Apps Script:
+
+1. Isi `ANZA_SECRET` di `.env.local` atau environment Vercel
+2. Isi nilai yang sama di `ANZA_SECRET` pada file Apps Script
+3. Deploy ulang Apps Script dan redeploy Vercel
+
+Jika secret aktif, submit langsung ke URL Apps Script tanpa secret yang benar akan ditolak.
+
 ## Deployment
 
 Project ini ditujukan untuk deploy ke **Vercel**.

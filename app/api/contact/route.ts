@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 
 import {
-  parseContactRequestPayload,
+  parseContactRequestSubmission,
   submitContactRequest,
   validateContactRequestPayload,
 } from "@/lib/contact-submit.server";
+import { validateContactSubmissionSecurity } from "@/lib/contact-security.server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -12,9 +13,18 @@ export const runtime = "nodejs";
 export async function POST(request: Request) {
   try {
     const rawPayload = await request.json();
-    const payload = parseContactRequestPayload(rawPayload);
+    const submission = parseContactRequestSubmission(rawPayload);
+    const { website, formStartedAt, ...payload } = submission;
 
     validateContactRequestPayload(payload);
+    validateContactSubmissionSecurity(
+      request,
+      {
+        website,
+        formStartedAt,
+      },
+      payload,
+    );
 
     const result = await submitContactRequest(payload);
 
@@ -27,16 +37,24 @@ export async function POST(request: Request) {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Terjadi kesalahan saat mengirim pesan.";
+    const retryAfterSeconds =
+      error instanceof Error &&
+      "retryAfterSeconds" in error &&
+      typeof error.retryAfterSeconds === "number"
+        ? error.retryAfterSeconds
+        : undefined;
 
     return NextResponse.json(
       {
         ok: false,
         message,
+        retryAfterSeconds,
       },
       {
-        status: 400,
+        status: retryAfterSeconds ? 429 : 400,
         headers: {
           "Cache-Control": "no-store",
+          ...(retryAfterSeconds ? { "Retry-After": String(retryAfterSeconds) } : {}),
         },
       },
     );

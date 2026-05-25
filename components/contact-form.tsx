@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import type {
+  ContactRequestSubmission,
   ContactRequestPayload,
   ContactRequestResponse,
 } from "@/lib/contact-api";
@@ -21,7 +22,9 @@ export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [phoneNumberInput, setPhoneNumberInput] = useState("");
+  const [honeypotValue, setHoneypotValue] = useState("");
   const timeoutRef = useRef<number | null>(null);
+  const formStartedAtRef = useRef(Date.now());
 
   useEffect(() => {
     return () => {
@@ -53,6 +56,11 @@ export function ContactForm() {
       serviceType: String(formData.get("serviceType") || "").trim(),
       description: String(formData.get("description") || "").trim(),
     };
+    const submissionPayload: ContactRequestSubmission = {
+      ...payload,
+      website: honeypotValue,
+      formStartedAt: formStartedAtRef.current,
+    };
 
     setSubmitError("");
     setIsSubmitting(true);
@@ -63,7 +71,7 @@ export function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(submissionPayload),
       });
 
       const result = (await response.json()) as ContactRequestResponse;
@@ -75,6 +83,8 @@ export function ContactForm() {
       setIsSubmitted(true);
       form.reset();
       setPhoneNumberInput("");
+      setHoneypotValue("");
+      formStartedAtRef.current = Date.now();
 
       timeoutRef.current = window.setTimeout(() => {
         setIsSubmitted(false);
@@ -92,6 +102,19 @@ export function ContactForm() {
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden opacity-0 pointer-events-none">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypotValue}
+          onChange={(event) => setHoneypotValue(event.target.value)}
+        />
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label

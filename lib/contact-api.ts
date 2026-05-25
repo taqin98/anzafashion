@@ -5,13 +5,26 @@ export type ContactRequestPayload = {
   description: string;
 };
 
+export type ContactRequestSubmission = ContactRequestPayload & {
+  website: string;
+  formStartedAt: number;
+};
+
 export type ContactRequestResponse = {
   ok: boolean;
   message: string;
+  retryAfterSeconds?: number;
 };
 
 const MAX_WHATSAPP_DIGITS = 15;
 const INDONESIAN_WHATSAPP_PATTERN = /^628\d{7,12}$/;
+export const CONTACT_FORM_MIN_SUBMIT_MS = 2500;
+export const CONTACT_FORM_MAX_SUBMIT_MS = 1000 * 60 * 60 * 2;
+export const CONTACT_RATE_LIMIT_WINDOW_MS = 1000 * 60 * 15;
+export const CONTACT_RATE_LIMIT_MAX_REQUESTS = 5;
+export const CONTACT_DUPLICATE_WINDOW_MS = 1000 * 60 * 10;
+export const CONTACT_MAX_NAME_LENGTH = 100;
+export const CONTACT_MAX_DESCRIPTION_LENGTH = 1500;
 
 export function sanitizeWhatsappNumber(value: string) {
   return value.replace(/\D/g, "").slice(0, MAX_WHATSAPP_DIGITS);
