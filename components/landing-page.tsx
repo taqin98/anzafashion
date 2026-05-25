@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type SVGProps } from "react";
+import { useEffect, useState, type SVGProps } from "react";
 import Image from "next/image";
 
 import { CollectionModal } from "@/components/collection-modal";
@@ -8,7 +8,10 @@ import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
 import { SiteLogo } from "@/components/site-logo";
 import {
-  collectionItems,
+  COLLECTION_ITEMS_PER_PAGE,
+  type CollectionListResponse,
+} from "@/lib/collection-api";
+import {
   contactMapEmbedUrl,
   contactItems,
   heroStats,
@@ -17,6 +20,7 @@ import {
   serviceItems,
   testimonialItems,
   type CollectionIcon,
+  type CollectionItem,
   type ContactItem,
 } from "@/lib/site-content";
 
@@ -30,7 +34,6 @@ const proseClassName =
   "text-[0.92rem] leading-[1.85] text-[var(--warm-gray)]";
 
 const heroLayoutVariant: "v1" | "v2" = "v2";
-const collectionItemsPerPage = 6;
 
 function classNames(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -479,11 +482,65 @@ export function CollectionSection() {
   const [modalImages, setModalImages] = useState<string[]>([]);
   const [modalProductName, setModalProductName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [collectionData, setCollectionData] = useState<CollectionItem[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoadingCollections, setIsLoadingCollections] = useState(true);
+  const [collectionsError, setCollectionsError] = useState("");
 
-  const totalPages = Math.max(1, Math.ceil(collectionItems.length / collectionItemsPerPage));
-  const startIndex = (currentPage - 1) * collectionItemsPerPage;
-  const visibleItems = collectionItems.slice(startIndex, startIndex + collectionItemsPerPage);
   const paginationNumbers = getPaginationNumbers(currentPage, totalPages);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadCollections() {
+      setIsLoadingCollections(true);
+      setCollectionsError("");
+
+      try {
+        const response = await fetch(
+          `/api/collections?page=${currentPage}&limit=${COLLECTION_ITEMS_PER_PAGE}`,
+          {
+            signal: controller.signal,
+            cache: "no-store",
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const payload = (await response.json()) as CollectionListResponse;
+
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setCollectionData(payload.data);
+        setTotalPages(payload.meta.totalPages);
+
+        if (payload.meta.page !== currentPage) {
+          setCurrentPage(payload.meta.page);
+        }
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        console.error("Failed to load collection page.", error);
+        setCollectionData([]);
+        setTotalPages(1);
+        setCollectionsError("Koleksi belum dapat dimuat saat ini.");
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoadingCollections(false);
+        }
+      }
+    }
+
+    void loadCollections();
+
+    return () => controller.abort();
+  }, [currentPage]);
 
   function openModal(images: string[], productName: string) {
     setModalImages(images);
@@ -502,7 +559,28 @@ export function CollectionSection() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-        {visibleItems.map((item, index) => {
+        {isLoadingCollections && collectionData.length === 0
+          ? Array.from({ length: COLLECTION_ITEMS_PER_PAGE }, (_, index) => (
+              <div
+                key={`collection-skeleton-${index}`}
+                className="animate-pulse border border-[var(--soft-gray)] bg-[var(--warm-white)]"
+              >
+                <div className="aspect-square bg-[var(--sand-light)]" />
+                <div className="space-y-3 px-0 py-4">
+                  <div className="h-6 w-3/4 bg-[var(--sand-light)]" />
+                  <div className="h-4 w-1/2 bg-[var(--sand-light)]" />
+                </div>
+              </div>
+            ))
+          : null}
+
+        {!isLoadingCollections && collectionData.length === 0 ? (
+          <div className="col-span-full border border-dashed border-[var(--sand)] px-6 py-10 text-center text-[0.92rem] text-[var(--warm-gray)]">
+            {collectionsError || "Belum ada data koleksi untuk ditampilkan."}
+          </div>
+        ) : null}
+
+        {collectionData.map((item, index) => {
           const cardImage = item.image || item.images?.[0];
           const hasModal = item.images && item.images.length > 0;
 
@@ -579,7 +657,7 @@ export function CollectionSection() {
             type="button"
             aria-label="Halaman sebelumnya"
             onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-            disabled={currentPage === 1}
+            disabled={currentPage === 1 || isLoadingCollections}
             className="inline-flex size-11 items-center justify-center border border-[var(--sand)] text-[var(--charcoal)] transition hover:border-[var(--rose)] hover:text-[var(--rose)] disabled:cursor-not-allowed disabled:opacity-40"
           >
             <span aria-hidden="true">&larr;</span>
@@ -600,8 +678,9 @@ export function CollectionSection() {
                   type="button"
                   onClick={() => setCurrentPage(pageNumber)}
                   aria-current={currentPage === pageNumber ? "page" : undefined}
+                  disabled={isLoadingCollections}
                   className={classNames(
-                    "inline-flex size-11 items-center justify-center border text-sm transition",
+                    "inline-flex size-11 items-center justify-center border text-sm transition disabled:cursor-not-allowed disabled:opacity-40",
                     currentPage === pageNumber
                       ? "border-[var(--rose)] bg-[var(--rose)] text-white"
                       : "border-[var(--sand)] text-[var(--charcoal)] hover:border-[var(--rose)] hover:text-[var(--rose)]",
@@ -617,7 +696,7 @@ export function CollectionSection() {
             type="button"
             aria-label="Halaman berikutnya"
             onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || isLoadingCollections}
             className="inline-flex size-11 items-center justify-center border border-[var(--sand)] text-[var(--charcoal)] transition hover:border-[var(--rose)] hover:text-[var(--rose)] disabled:cursor-not-allowed disabled:opacity-40"
           >
             <span aria-hidden="true">&rarr;</span>

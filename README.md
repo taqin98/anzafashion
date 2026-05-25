@@ -23,6 +23,7 @@ Project ini merupakan hasil migrasi dari file HTML statis yang kini diarsipkan d
 - Styling berbasis Tailwind dengan design token di `app/globals.css`
 - Data section dipusatkan di `lib/site-content.ts`
 - Contact form mock dengan feedback sukses di sisi client
+- API route `/api/collections` untuk data koleksi dari Google Spreadsheet via Google Apps Script
 - Reveal-on-scroll animation memakai `IntersectionObserver`
 - Branding `Anza Fashion` dengan logo SVG dan favicon custom
 
@@ -42,6 +43,8 @@ components/
   site-logo.tsx        Komponen logo brand
 
 lib/
+  collection-api.ts    Shared type dan meta response koleksi
+  collection-source.server.ts  Loader server-side untuk Apps Script / fallback
   site-content.ts      Data statis untuk nav, koleksi, layanan, testimoni, kontak
 
 public/
@@ -49,6 +52,7 @@ public/
   anza-mark.svg        Versi mark/icon logo
 
 references/
+  google-apps-script-collections.gs Template Apps Script untuk expose spreadsheet
   katalog-jahitan.original.html  Arsip HTML asli sebelum migrasi
 ```
 
@@ -112,7 +116,6 @@ Sebagian besar teks landing page bisa diubah tanpa menyentuh JSX layout:
 - edit `lib/site-content.ts` untuk:
   - navigasi
   - statistik hero
-  - koleksi
   - layanan
   - testimoni
   - kontak
@@ -120,6 +123,71 @@ Sebagian besar teks landing page bisa diubah tanpa menyentuh JSX layout:
 Untuk teks yang memang menyatu dengan struktur section, edit:
 
 - `components/landing-page.tsx`
+
+Data koleksi utama sekarang sebaiknya dikelola dari Google Spreadsheet.
+
+## Collections API
+
+Endpoint koleksi tersedia di:
+
+- `GET /api/collections`
+
+Query params:
+
+- `page` default `1`
+- `limit` default `6`
+
+Contoh response:
+
+```json
+{
+  "data": [
+    {
+      "name": "Kebaya Modern Elegan",
+      "category": "Kebaya · Formal",
+      "price": "Rp450.000",
+      "label": "Foto Produk 1",
+      "icon": "kebaya",
+      "image": "https://...",
+      "images": ["https://..."],
+      "badge": "Best Seller",
+      "badgeTone": "rose"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 6,
+    "totalItems": 12,
+    "totalPages": 2,
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+    "source": "google-apps-script"
+  }
+}
+```
+
+Jika `GOOGLE_APPS_SCRIPT_URL` belum diisi atau Apps Script gagal diakses, API akan fallback ke data statis di `lib/site-content.ts`.
+
+## Google Spreadsheet Setup
+
+1. Buat sheet bernama `collections`
+2. Gunakan header baris pertama:
+   `name`, `category`, `price`, `label`, `icon`, `image`, `images`, `badge`, `badge_tone`, `sort_order`, `is_active`
+3. Isi `images` dengan daftar URL dipisah koma atau JSON array
+4. Nilai `icon` yang didukung: `kebaya`, `dress`, `blouse`, `gamis`
+5. Ambil spreadsheet ID dari URL Google Sheets:
+   `https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit`
+6. Buat Apps Script baru dan tempel file `references/google-apps-script-collections.gs`, lalu ganti `YOUR_SPREADSHEET_ID`
+7. Jalankan `setupCollectionsSheet()` sekali jika ingin script otomatis membuat sheet, field, dan sample data referensi
+8. Deploy sebagai Web App dengan akses `Anyone with the link`
+9. Simpan URL hasil deploy ke `.env.local`:
+
+```bash
+GOOGLE_APPS_SCRIPT_URL=https://script.google.com/macros/s/your-deployment-id/exec
+COLLECTION_IMAGE_HOSTS=lh3.googleusercontent.com,images.unsplash.com
+```
+
+Gunakan host gambar yang benar-benar dipakai URL pada kolom `image` atau `images`. Jika domain belum didaftarkan di `COLLECTION_IMAGE_HOSTS`, `next/image` akan menolak render gambar remote tersebut.
 
 ## Deployment
 
