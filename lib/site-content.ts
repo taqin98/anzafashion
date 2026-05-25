@@ -65,7 +65,7 @@ export const collectionItems: CollectionItem[] = [
   {
     name: "Kebaya Modern Elegan",
     category: "Kebaya · Formal",
-    price: "Mulai Rp 350.000",
+    price: "",
     label: "Foto Produk 1",
     icon: "kebaya",
     image: "/products/product-1-1.jpeg",
@@ -75,7 +75,7 @@ export const collectionItems: CollectionItem[] = [
   {
     name: "Dress Batik Casual",
     category: "Dress · Kasual",
-    price: "Mulai Rp 280.000",
+    price: "",
     label: "Foto Produk 2",
     icon: "dress",
     image: "/products/product-2-1.jpeg",
@@ -85,7 +85,7 @@ export const collectionItems: CollectionItem[] = [
   {
     name: "Blouse Tenun Premium",
     category: "Blouse · Semi-formal",
-    price: "Mulai Rp 220.000",
+    price: "",
     label: "Foto Produk 3",
     icon: "blouse",
     image: "/products/product-3-2.jpeg",
@@ -94,7 +94,7 @@ export const collectionItems: CollectionItem[] = [
   {
     name: "Gamis Brokat Mewah",
     category: "Gamis · Pesta",
-    price: "Mulai Rp 450.000",
+    price: "",
     label: "Foto Produk 4",
     icon: "gamis",
     image: "/products/product-4-1.jpeg",
@@ -103,7 +103,7 @@ export const collectionItems: CollectionItem[] = [
   {
     name: "Kemeja Bordir Eksklusif",
     category: "Kemeja · Formal",
-    price: "Mulai Rp 300.000",
+    price: "",
     label: "Foto Produk 5",
     icon: "blouse",
     image: "/products/product-5-1.jpeg",
@@ -113,7 +113,7 @@ export const collectionItems: CollectionItem[] = [
   {
     name: "Setelan Kulot Modern",
     category: "Setelan · Kasual",
-    price: "Mulai Rp 325.000",
+    price: "",
     label: "Foto Produk 6",
     icon: "blouse",
     image: "/products/product-6-1.jpeg",

@@ -30,9 +30,26 @@ const proseClassName =
   "text-[0.92rem] leading-[1.85] text-[var(--warm-gray)]";
 
 const heroLayoutVariant: "v1" | "v2" = "v2";
+const collectionItemsPerPage = 6;
 
 function classNames(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
+}
+
+function getPaginationNumbers(currentPage: number, totalPages: number) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  if (currentPage <= 3) {
+    return [1, 2, 3, 4, "...", totalPages];
+  }
+
+  if (currentPage >= totalPages - 2) {
+    return [1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+  }
+
+  return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages];
 }
 
 function SectionTag({ children, centered = false }: { children: React.ReactNode; centered?: boolean }) {
@@ -461,6 +478,12 @@ export function CollectionSection() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImages, setModalImages] = useState<string[]>([]);
   const [modalProductName, setModalProductName] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.max(1, Math.ceil(collectionItems.length / collectionItemsPerPage));
+  const startIndex = (currentPage - 1) * collectionItemsPerPage;
+  const visibleItems = collectionItems.slice(startIndex, startIndex + collectionItemsPerPage);
+  const paginationNumbers = getPaginationNumbers(currentPage, totalPages);
 
   function openModal(images: string[], productName: string) {
     setModalImages(images);
@@ -479,7 +502,7 @@ export function CollectionSection() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-        {collectionItems.map((item, index) => {
+        {visibleItems.map((item, index) => {
           const cardImage = item.image || item.images?.[0];
           const hasModal = item.images && item.images.length > 0;
 
@@ -549,6 +572,58 @@ export function CollectionSection() {
           );
         })}
       </div>
+
+      {totalPages > 1 ? (
+        <div className="mt-12 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            aria-label="Halaman sebelumnya"
+            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+            disabled={currentPage === 1}
+            className="inline-flex size-11 items-center justify-center border border-[var(--sand)] text-[var(--charcoal)] transition hover:border-[var(--rose)] hover:text-[var(--rose)] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <span aria-hidden="true">&larr;</span>
+          </button>
+
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {paginationNumbers.map((pageNumber, index) =>
+              pageNumber === "..." ? (
+                <span
+                  key={`ellipsis-${index}`}
+                  className="inline-flex size-11 items-center justify-center text-sm text-[var(--warm-gray)]"
+                >
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={pageNumber}
+                  type="button"
+                  onClick={() => setCurrentPage(pageNumber)}
+                  aria-current={currentPage === pageNumber ? "page" : undefined}
+                  className={classNames(
+                    "inline-flex size-11 items-center justify-center border text-sm transition",
+                    currentPage === pageNumber
+                      ? "border-[var(--rose)] bg-[var(--rose)] text-white"
+                      : "border-[var(--sand)] text-[var(--charcoal)] hover:border-[var(--rose)] hover:text-[var(--rose)]",
+                  )}
+                >
+                  {pageNumber}
+                </button>
+              ),
+            )}
+          </div>
+
+          <button
+            type="button"
+            aria-label="Halaman berikutnya"
+            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+            disabled={currentPage === totalPages}
+            className="inline-flex size-11 items-center justify-center border border-[var(--sand)] text-[var(--charcoal)] transition hover:border-[var(--rose)] hover:text-[var(--rose)] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+      ) : null}
 
       <CollectionModal
         isOpen={modalOpen}
