@@ -14,6 +14,7 @@ import {
 type RawCollectionRecord = Record<string, unknown>;
 
 type NormalizedCollectionRecord = {
+  id: string;
   name: string;
   category: string;
   price: string;
@@ -141,6 +142,7 @@ function normalizeCollectionRecord(
   }
 
   const category = readString(record, ["category", "type"]);
+  const id = readString(record, ["id"]) || `collection-${index + 1}`;
   const price = readString(record, ["price"]);
   const label = readString(record, ["label", "image_label"]) || `Foto Produk ${index + 1}`;
   const icon = normalizeIcon(readString(record, ["icon"]));
@@ -153,6 +155,7 @@ function normalizeCollectionRecord(
 
   return {
     name,
+    id,
     category,
     price,
     label,

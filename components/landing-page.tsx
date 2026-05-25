@@ -586,7 +586,7 @@ export function CollectionSection() {
           const hasModal = item.images && item.images.length > 0;
 
           return (
-          <Reveal key={item.name} delayMs={index * 120}>
+          <Reveal key={item.id} delayMs={index * 120}>
             <article
               className="group h-full cursor-pointer transition duration-300 hover:-translate-y-1"
               onClick={() => {

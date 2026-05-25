@@ -22,9 +22,10 @@ Project ini merupakan hasil migrasi dari file HTML statis yang kini diarsipkan d
 - Landing page satu halaman dengan section terpisah dan reusable
 - Styling berbasis Tailwind dengan design token di `app/globals.css`
 - Data section dipusatkan di `lib/site-content.ts`
-- Contact form mock dengan feedback sukses di sisi client
+- Contact form terhubung ke backend dan Google Spreadsheet
 - API route `/api/collections` untuk data koleksi dari Google Spreadsheet via Google Apps Script
 - API route `/api/contact` untuk menyimpan form kontak ke Google Spreadsheet via Google Apps Script
+- Panel admin mobile-friendly dengan login fixed account berbasis env
 - Reveal-on-scroll animation memakai `IntersectionObserver`
 - Branding `Anza Fashion` dengan logo SVG dan favicon custom
 
@@ -36,6 +37,7 @@ app/
   icon.svg             Favicon / app icon
   layout.tsx           Root layout dan metadata
   page.tsx             Komposisi landing page
+  admin/...            Login admin dan panel CRUD koleksi
   api/contact/route.ts Backend submit form kontak
 
 components/
@@ -46,8 +48,10 @@ components/
 
 lib/
   collection-api.ts    Shared type dan meta response koleksi
+  collection-admin.server.ts Loader dan CRUD koleksi untuk admin
   collection-source.server.ts  Loader server-side untuk Apps Script / fallback
   contact-api.ts       Shared type payload/response form kontak
+  admin-auth.server.ts Session auth admin berbasis cookie + env
   contact-submit.server.ts  Submitter server-side ke Apps Script
   site-content.ts      Data statis untuk nav, koleksi, layanan, testimoni, kontak
 
@@ -172,6 +176,21 @@ Contoh response:
 
 Jika `GOOGLE_APPS_SCRIPT_URL` belum diisi atau Apps Script gagal diakses, API akan fallback ke data statis di `lib/site-content.ts`.
 
+## Admin Panel
+
+Route admin:
+
+- `GET /admin` redirect ke dashboard atau login
+- `GET /admin/login`
+- `GET /admin/dashboard`
+- `GET /admin/collections`
+
+Credential login dibaca dari environment:
+
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD`
+- `ANZA_SECRET` untuk sign session cookie dan shared secret ke Apps Script
+
 ## Contact API
 
 Endpoint form kontak tersedia di:
@@ -202,7 +221,7 @@ Response sukses:
 
 1. Buat sheet bernama `collections`
 2. Gunakan header baris pertama:
-   `name`, `category`, `price`, `label`, `icon`, `image`, `images`, `badge`, `badge_tone`, `sort_order`, `is_active`
+   `id`, `name`, `category`, `price`, `label`, `icon`, `image`, `images`, `badge`, `badge_tone`, `sort_order`, `is_active`
 3. Isi `images` dengan daftar URL dipisah koma atau JSON array
 4. Nilai `icon` yang didukung: `kebaya`, `dress`, `blouse`, `gamis`
 5. Ambil spreadsheet ID dari URL Google Sheets:
@@ -215,6 +234,9 @@ Response sukses:
 
 ```bash
 GOOGLE_APPS_SCRIPT_URL=https://script.google.com/macros/s/your-deployment-id/exec
+ANZA_SECRET=xxxxx-xxxx
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=change-this-password
 COLLECTION_IMAGE_HOSTS=lh3.googleusercontent.com,images.unsplash.com
 ```
 

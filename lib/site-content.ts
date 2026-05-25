@@ -11,6 +11,7 @@ export type StatItem = {
 export type CollectionIcon = "kebaya" | "dress" | "blouse" | "gamis";
 
 export type CollectionItem = {
+  id: string;
   name: string;
   category: string;
   price: string;
@@ -63,6 +64,7 @@ export const marqueeItems = [
 
 export const collectionItems: CollectionItem[] = [
   {
+    id: "collection-001",
     name: "Kebaya Modern Elegan",
     category: "Kebaya · Formal",
     price: "",
@@ -73,6 +75,7 @@ export const collectionItems: CollectionItem[] = [
     badgeTone: "rose",
   },
   {
+    id: "collection-002",
     name: "Dress Batik Casual",
     category: "Dress · Kasual",
     price: "",
@@ -83,6 +86,7 @@ export const collectionItems: CollectionItem[] = [
     badgeTone: "terracotta",
   },
   {
+    id: "collection-003",
     name: "Blouse Tenun Premium",
     category: "Blouse · Semi-formal",
     price: "",
@@ -92,6 +96,7 @@ export const collectionItems: CollectionItem[] = [
     images: ["/products/product-3-1.jpeg", "/products/product-3-2.jpeg", "/products/product-3-3.jpeg", "/products/product-3-4.jpeg"],
   },
   {
+    id: "collection-004",
     name: "Gamis Brokat Mewah",
     category: "Gamis · Pesta",
     price: "",
@@ -101,6 +106,7 @@ export const collectionItems: CollectionItem[] = [
     images: ["/products/product-4-1.jpeg", "/products/product-4-2.jpeg", "/products/product-4-3.jpeg", "/products/product-4-4.jpeg", "/products/product-4-5.jpeg"],
   },
   {
+    id: "collection-005",
     name: "Kemeja Bordir Eksklusif",
     category: "Kemeja · Formal",
     price: "",
@@ -111,6 +117,7 @@ export const collectionItems: CollectionItem[] = [
     badgeTone: "terracotta",
   },
   {
+    id: "collection-006",
     name: "Setelan Kulot Modern",
     category: "Setelan · Kasual",
     price: "",
@@ -121,6 +128,7 @@ export const collectionItems: CollectionItem[] = [
     badgeTone: "rose",
   },
   {
+    id: "collection-007",
     name: "Setelan Baju Adat",
     category: "Setelan · Formal",
     price: "",
