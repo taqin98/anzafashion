@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import type {
+  ContactRequestPayload,
+  ContactRequestResponse,
+} from "@/lib/contact-api";
 import { serviceOptions } from "@/lib/site-content";
 
 const fieldClassName =
@@ -9,6 +13,8 @@ const fieldClassName =
 
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -19,7 +25,7 @@ export function ContactForm() {
     };
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (timeoutRef.current) {
@@ -27,13 +33,47 @@ export function ContactForm() {
     }
 
     const form = event.currentTarget;
-    setIsSubmitted(true);
+    const formData = new FormData(form);
+    const payload: ContactRequestPayload = {
+      fullName: String(formData.get("fullName") || "").trim(),
+      phoneNumber: String(formData.get("phoneNumber") || "").trim(),
+      serviceType: String(formData.get("serviceType") || "").trim(),
+      description: String(formData.get("description") || "").trim(),
+    };
 
-    timeoutRef.current = window.setTimeout(() => {
-      setIsSubmitted(false);
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = (await response.json()) as ContactRequestResponse;
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.message || "Pesan belum dapat dikirim.");
+      }
+
+      setIsSubmitted(true);
       form.reset();
-      timeoutRef.current = null;
-    }, 3000);
+
+      timeoutRef.current = window.setTimeout(() => {
+        setIsSubmitted(false);
+        timeoutRef.current = null;
+      }, 3000);
+    } catch (error) {
+      setIsSubmitted(false);
+      setSubmitError(
+        error instanceof Error ? error.message : "Pesan belum dapat dikirim.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -50,6 +90,7 @@ export function ContactForm() {
             id="full-name"
             name="fullName"
             type="text"
+            required
             className={fieldClassName}
             placeholder="Nama Anda"
           />
@@ -65,6 +106,7 @@ export function ContactForm() {
             id="phone-number"
             name="phoneNumber"
             type="tel"
+            required
             className={fieldClassName}
             placeholder="08xx-xxxx-xxxx"
           />
@@ -82,6 +124,7 @@ export function ContactForm() {
           id="service-type"
           name="serviceType"
           defaultValue=""
+          required
           className={`${fieldClassName} appearance-none cursor-pointer bg-no-repeat pr-10`}
           style={{
             backgroundImage:
@@ -108,23 +151,29 @@ export function ContactForm() {
         <textarea
           id="description"
           name="description"
+          required
           className={`${fieldClassName} min-h-[120px] resize-none`}
           placeholder="Ceritakan model yang Anda inginkan, ukuran, bahan, warna, dll..."
         />
       </div>
 
+      {submitError ? (
+        <p className="text-sm text-[var(--rose-dark)]">{submitError}</p>
+      ) : null}
+
       <button
         type="submit"
-        disabled={isSubmitted}
+        disabled={isSubmitting || isSubmitted}
         className={`inline-flex self-start px-10 py-4 text-[0.8rem] uppercase tracking-[0.15em] text-white transition ${
           isSubmitted
             ? "cursor-default bg-[var(--success)]"
+            : isSubmitting
+              ? "cursor-wait bg-[var(--warm-gray)]"
             : "cursor-pointer bg-[var(--rose)] hover:-translate-y-px hover:bg-[var(--rose-dark)]"
         }`}
       >
-        {isSubmitted ? "OK Pesan Terkirim!" : "Kirim Pesanan"}
+        {isSubmitted ? "OK Pesan Terkirim!" : isSubmitting ? "Mengirim..." : "Kirim Pesanan"}
       </button>
     </form>
   );
 }
-

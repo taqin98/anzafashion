@@ -1,6 +1,6 @@
 const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID";
-const SHEET_NAME = "collections";
-const FIELD_NAMES = [
+const COLLECTIONS_SHEET_NAME = "collections";
+const COLLECTION_FIELDS = [
   "name",
   "category",
   "price",
@@ -12,6 +12,16 @@ const FIELD_NAMES = [
   "badge_tone",
   "sort_order",
   "is_active",
+];
+const CONTACT_REQUESTS_SHEET_NAME = "contact_requests";
+const CONTACT_REQUEST_FIELDS = [
+  "submitted_at",
+  "full_name",
+  "phone_number",
+  "service_type",
+  "description",
+  "status",
+  "source",
 ];
 
 const SAMPLE_COLLECTIONS = [
@@ -123,6 +133,44 @@ function doGet() {
   });
 }
 
+function doPost(event) {
+  try {
+    const payload = parseJsonBody(event);
+
+    if (payload.action !== "create-contact-request") {
+      return jsonResponse({
+        ok: false,
+        message: "Unsupported action.",
+      });
+    }
+
+    validateContactPayload(payload);
+
+    const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ensureContactRequestsSheet(spreadsheet);
+    const submittedAt = new Date().toISOString();
+    const row = CONTACT_REQUEST_FIELDS.map((fieldName) => {
+      if (fieldName === "submitted_at") return submittedAt;
+      if (fieldName === "status") return "new";
+      if (fieldName === "source") return "website";
+
+      return payload[fieldName] || "";
+    });
+
+    sheet.appendRow(row);
+
+    return jsonResponse({
+      ok: true,
+      message: "Pesan berhasil disimpan.",
+    });
+  } catch (error) {
+    return jsonResponse({
+      ok: false,
+      message: error && error.message ? error.message : "Failed to store contact request.",
+    });
+  }
+}
+
 function setupCollectionsSheet() {
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ensureCollectionsSheet(spreadsheet);
@@ -131,15 +179,29 @@ function setupCollectionsSheet() {
     ok: true,
     sheetName: sheet.getName(),
     spreadsheetId: SPREADSHEET_ID,
-    fields: FIELD_NAMES,
+    fields: COLLECTION_FIELDS,
     sampleCount: SAMPLE_COLLECTIONS.length,
   });
 }
 
-function ensureCollectionsSheet(spreadsheet) {
-  const sheet = spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.insertSheet(SHEET_NAME);
+function setupContactRequestsSheet() {
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ensureContactRequestsSheet(spreadsheet);
 
-  ensureHeaderFields(sheet);
+  return jsonResponse({
+    ok: true,
+    sheetName: sheet.getName(),
+    spreadsheetId: SPREADSHEET_ID,
+    fields: CONTACT_REQUEST_FIELDS,
+  });
+}
+
+function ensureCollectionsSheet(spreadsheet) {
+  const sheet =
+    spreadsheet.getSheetByName(COLLECTIONS_SHEET_NAME) ||
+    spreadsheet.insertSheet(COLLECTIONS_SHEET_NAME);
+
+  ensureHeaderFields(sheet, COLLECTION_FIELDS);
   seedSampleRows(sheet);
 
   sheet.setFrozenRows(1);
@@ -147,16 +209,27 @@ function ensureCollectionsSheet(spreadsheet) {
   return sheet;
 }
 
-function ensureHeaderFields(sheet) {
+function ensureContactRequestsSheet(spreadsheet) {
+  const sheet =
+    spreadsheet.getSheetByName(CONTACT_REQUESTS_SHEET_NAME) ||
+    spreadsheet.insertSheet(CONTACT_REQUESTS_SHEET_NAME);
+
+  ensureHeaderFields(sheet, CONTACT_REQUEST_FIELDS);
+  sheet.setFrozenRows(1);
+
+  return sheet;
+}
+
+function ensureHeaderFields(sheet, fieldNames) {
   const lastColumn = sheet.getLastColumn();
 
   if (lastColumn === 0) {
-    sheet.getRange(1, 1, 1, FIELD_NAMES.length).setValues([FIELD_NAMES]);
+    sheet.getRange(1, 1, 1, fieldNames.length).setValues([fieldNames]);
     return;
   }
 
   const currentHeaders = sheet.getRange(1, 1, 1, lastColumn).getValues()[0].map(normalizeHeader);
-  const missingHeaders = FIELD_NAMES.filter((fieldName) => !currentHeaders.includes(fieldName));
+  const missingHeaders = fieldNames.filter((fieldName) => !currentHeaders.includes(fieldName));
 
   if (missingHeaders.length === 0) {
     return;
@@ -182,11 +255,49 @@ function seedSampleRows(sheet) {
   sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
 }
 
+function parseJsonBody(event) {
+  if (!event || !event.postData || !event.postData.contents) {
+    throw new Error("Request body is missing.");
+  }
+
+  const payload = JSON.parse(event.postData.contents);
+
+  return {
+    action: normalizeString(payload.action),
+    full_name: normalizeString(payload.fullName),
+    phone_number: normalizeString(payload.phoneNumber),
+    service_type: normalizeString(payload.serviceType),
+    description: normalizeString(payload.description),
+  };
+}
+
+function validateContactPayload(payload) {
+  if (!payload.full_name) {
+    throw new Error("Field fullName is required.");
+  }
+
+  if (!payload.phone_number) {
+    throw new Error("Field phoneNumber is required.");
+  }
+
+  if (!payload.service_type) {
+    throw new Error("Field serviceType is required.");
+  }
+
+  if (!payload.description) {
+    throw new Error("Field description is required.");
+  }
+}
+
 function mapRowToRecord(headers, row) {
   return headers.reduce((record, header, index) => {
     record[header] = (row[index] || "").trim();
     return record;
   }, {});
+}
+
+function normalizeString(value) {
+  return String(value || "").trim();
 }
 
 function normalizeHeader(value) {

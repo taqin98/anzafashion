@@ -24,6 +24,7 @@ Project ini merupakan hasil migrasi dari file HTML statis yang kini diarsipkan d
 - Data section dipusatkan di `lib/site-content.ts`
 - Contact form mock dengan feedback sukses di sisi client
 - API route `/api/collections` untuk data koleksi dari Google Spreadsheet via Google Apps Script
+- API route `/api/contact` untuk menyimpan form kontak ke Google Spreadsheet via Google Apps Script
 - Reveal-on-scroll animation memakai `IntersectionObserver`
 - Branding `Anza Fashion` dengan logo SVG dan favicon custom
 
@@ -35,6 +36,7 @@ app/
   icon.svg             Favicon / app icon
   layout.tsx           Root layout dan metadata
   page.tsx             Komposisi landing page
+  api/contact/route.ts Backend submit form kontak
 
 components/
   contact-form.tsx     Form kontak client-side
@@ -45,6 +47,8 @@ components/
 lib/
   collection-api.ts    Shared type dan meta response koleksi
   collection-source.server.ts  Loader server-side untuk Apps Script / fallback
+  contact-api.ts       Shared type payload/response form kontak
+  contact-submit.server.ts  Submitter server-side ke Apps Script
   site-content.ts      Data statis untuk nav, koleksi, layanan, testimoni, kontak
 
 public/
@@ -168,6 +172,32 @@ Contoh response:
 
 Jika `GOOGLE_APPS_SCRIPT_URL` belum diisi atau Apps Script gagal diakses, API akan fallback ke data statis di `lib/site-content.ts`.
 
+## Contact API
+
+Endpoint form kontak tersedia di:
+
+- `POST /api/contact`
+
+Request body:
+
+```json
+{
+  "fullName": "Nama Anda",
+  "phoneNumber": "08123456789",
+  "serviceType": "Jahit Custom",
+  "description": "Butuh kebaya untuk acara keluarga."
+}
+```
+
+Response sukses:
+
+```json
+{
+  "ok": true,
+  "message": "Pesan berhasil dikirim."
+}
+```
+
 ## Google Spreadsheet Setup
 
 1. Buat sheet bernama `collections`
@@ -178,9 +208,10 @@ Jika `GOOGLE_APPS_SCRIPT_URL` belum diisi atau Apps Script gagal diakses, API ak
 5. Ambil spreadsheet ID dari URL Google Sheets:
    `https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit`
 6. Buat Apps Script baru dan tempel file `references/google-apps-script-collections.gs`, lalu ganti `YOUR_SPREADSHEET_ID`
-7. Jalankan `setupCollectionsSheet()` sekali jika ingin script otomatis membuat sheet, field, dan sample data referensi
-8. Deploy sebagai Web App dengan akses `Anyone with the link`
-9. Simpan URL hasil deploy ke `.env.local`:
+7. Jalankan `setupCollectionsSheet()` sekali jika ingin script otomatis membuat sheet koleksi, field, dan sample data referensi
+8. Jalankan `setupContactRequestsSheet()` sekali jika ingin script otomatis membuat sheet form kontak
+9. Deploy ulang sebagai Web App dengan akses `Anyone with the link`
+10. Simpan URL hasil deploy ke `.env.local`:
 
 ```bash
 GOOGLE_APPS_SCRIPT_URL=https://script.google.com/macros/s/your-deployment-id/exec
@@ -188,6 +219,9 @@ COLLECTION_IMAGE_HOSTS=lh3.googleusercontent.com,images.unsplash.com
 ```
 
 Gunakan host gambar yang benar-benar dipakai URL pada kolom `image` atau `images`. Jika domain belum didaftarkan di `COLLECTION_IMAGE_HOSTS`, `next/image` akan menolak render gambar remote tersebut.
+
+Sheet form kontak yang dibuat otomatis bernama `contact_requests` dengan field:
+`submitted_at`, `full_name`, `phone_number`, `service_type`, `description`, `status`, `source`
 
 ## Deployment
 
