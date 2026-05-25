@@ -13,6 +13,7 @@ type CollectionModalProps = {
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
+const THUMBNAILS_PER_VIEW = 4;
 
 export function CollectionModal({
   isOpen,
@@ -25,6 +26,7 @@ export function CollectionModal({
   const [panX, setPanX] = useState(0);
   const [panY, setPanY] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
 
   const previewRef = useRef<HTMLDivElement>(null);
   const dragStartRef = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
@@ -39,14 +41,41 @@ export function CollectionModal({
   useEffect(() => {
     if (isOpen) {
       setSelectedIndex(0);
+      setThumbnailStartIndex(0);
       resetZoom();
     }
   }, [isOpen, images, resetZoom]);
+
+  useEffect(() => {
+    const maxThumbnailStartIndex = Math.max(0, images.length - THUMBNAILS_PER_VIEW);
+
+    setThumbnailStartIndex((currentStartIndex) => {
+      if (selectedIndex < currentStartIndex) {
+        return selectedIndex;
+      }
+
+      if (selectedIndex >= currentStartIndex + THUMBNAILS_PER_VIEW) {
+        return Math.min(selectedIndex - THUMBNAILS_PER_VIEW + 1, maxThumbnailStartIndex);
+      }
+
+      return Math.min(currentStartIndex, maxThumbnailStartIndex);
+    });
+  }, [images.length, selectedIndex]);
 
   // Switch image
   function selectImage(index: number) {
     setSelectedIndex(index);
     resetZoom();
+  }
+
+  function showPreviousThumbnails() {
+    setThumbnailStartIndex((index) => Math.max(0, index - 1));
+  }
+
+  function showNextThumbnails() {
+    setThumbnailStartIndex((index) =>
+      Math.min(Math.max(0, images.length - THUMBNAILS_PER_VIEW), index + 1),
+    );
   }
 
   // Zoom helpers
@@ -161,6 +190,14 @@ export function CollectionModal({
 
   if (!isOpen || images.length === 0) return null;
 
+  const visibleThumbnails = images.slice(
+    thumbnailStartIndex,
+    thumbnailStartIndex + THUMBNAILS_PER_VIEW,
+  );
+  const canShowPreviousThumbnails = thumbnailStartIndex > 0;
+  const canShowNextThumbnails =
+    thumbnailStartIndex + THUMBNAILS_PER_VIEW < images.length;
+
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-6"
@@ -241,32 +278,63 @@ export function CollectionModal({
         </div>
 
         {/* Thumbnails Row */}
-        <div
-          className="mt-3 grid gap-2"
-          style={{ gridTemplateColumns: `repeat(${images.length}, 1fr)` }}
-        >
-          {images.map((src, index) => (
+        <div className="mt-3 flex items-center gap-2">
+          {images.length > THUMBNAILS_PER_VIEW ? (
             <button
-              key={src}
-              onClick={() => selectImage(index)}
-              className={`
-                relative aspect-square w-full overflow-hidden rounded-md transition
-                ${
-                  index === selectedIndex
-                    ? "ring-2 ring-[var(--rose)] ring-offset-2 ring-offset-white"
-                    : "ring-1 ring-[var(--soft-gray)] hover:ring-[var(--rose-light)]"
-                }
-              `}
+              type="button"
+              onClick={showPreviousThumbnails}
+              disabled={!canShowPreviousThumbnails}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--soft-gray)] text-[var(--charcoal)] transition hover:border-[var(--rose)] hover:text-[var(--rose)] disabled:cursor-not-allowed disabled:opacity-35"
+              aria-label="Thumbnail sebelumnya"
             >
-              <Image
-                src={src}
-                alt={`${productName} - Thumbnail ${index + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 639px) 27vw, 8rem"
-              />
+              &larr;
             </button>
-          ))}
+          ) : null}
+
+          <div
+            className="grid flex-1 gap-2"
+            style={{ gridTemplateColumns: `repeat(${visibleThumbnails.length}, minmax(0, 1fr))` }}
+          >
+            {visibleThumbnails.map((src, offset) => {
+              const index = thumbnailStartIndex + offset;
+
+              return (
+                <button
+                  key={`${src}-${index}`}
+                  type="button"
+                  onClick={() => selectImage(index)}
+                  className={`
+                    relative aspect-square w-full overflow-hidden rounded-md transition
+                    ${
+                      index === selectedIndex
+                        ? "ring-2 ring-[var(--rose)] ring-offset-2 ring-offset-white"
+                        : "ring-1 ring-[var(--soft-gray)] hover:ring-[var(--rose-light)]"
+                    }
+                  `}
+                >
+                  <Image
+                    src={src}
+                    alt={`${productName} - Thumbnail ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 639px) 18vw, 6rem"
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          {images.length > THUMBNAILS_PER_VIEW ? (
+            <button
+              type="button"
+              onClick={showNextThumbnails}
+              disabled={!canShowNextThumbnails}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--soft-gray)] text-[var(--charcoal)] transition hover:border-[var(--rose)] hover:text-[var(--rose)] disabled:cursor-not-allowed disabled:opacity-35"
+              aria-label="Thumbnail berikutnya"
+            >
+              &rarr;
+            </button>
+          ) : null}
         </div>
 
         {/* Product Name */}
