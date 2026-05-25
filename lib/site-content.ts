@@ -120,6 +120,16 @@ export const collectionItems: CollectionItem[] = [
     images: ["/products/product-6-1.jpeg", "/products/product-6-2.jpeg"],
     badgeTone: "rose",
   },
+  {
+    name: "Setelan Baju Adat",
+    category: "Setelan · Formal",
+    price: "",
+    label: "Foto Produk 7",
+    icon: "blouse",
+    image: "/products/product-7-1.jpeg",
+    images: ["/products/product-7-1.jpeg", "/products/product-7-2.jpeg", "/products/product-7-3.jpeg", "/products/product-7-4.jpeg", "/products/product-7-5.jpeg", "/products/product-7-6.jpeg", "/products/product-7-7.jpeg","/products/product-7-8.jpeg", "/products/product-7-9.jpeg", "/products/product-7-10.jpeg"],
+    badgeTone: "rose",
+  },
 ];
 
 export const serviceItems: ServiceItem[] = [
