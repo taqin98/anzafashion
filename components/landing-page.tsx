@@ -34,12 +34,13 @@ const proseClassName =
   "text-[0.92rem] leading-[1.85] text-[var(--warm-gray)]";
 
 const heroLayoutVariant: "v1" | "v2" = "v2";
+type PaginationToken = number | "...";
 
 function classNames(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
 }
 
-function getPaginationNumbers(currentPage: number, totalPages: number) {
+function getPaginationNumbers(currentPage: number, totalPages: number): PaginationToken[] {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
