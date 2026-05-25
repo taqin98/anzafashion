@@ -6,6 +6,11 @@ import type {
   ContactRequestPayload,
   ContactRequestResponse,
 } from "@/lib/contact-api";
+import {
+  formatWhatsappNumber,
+  getWhatsappNumberError,
+  normalizeWhatsappNumber,
+} from "@/lib/contact-api";
 import { serviceOptions } from "@/lib/site-content";
 
 const fieldClassName =
@@ -15,6 +20,7 @@ export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [phoneNumberInput, setPhoneNumberInput] = useState("");
   const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -34,9 +40,16 @@ export function ContactForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const phoneNumberError = getWhatsappNumberError(phoneNumberInput);
+
+    if (phoneNumberError) {
+      setSubmitError(phoneNumberError);
+      return;
+    }
+
     const payload: ContactRequestPayload = {
       fullName: String(formData.get("fullName") || "").trim(),
-      phoneNumber: String(formData.get("phoneNumber") || "").trim(),
+      phoneNumber: normalizeWhatsappNumber(phoneNumberInput),
       serviceType: String(formData.get("serviceType") || "").trim(),
       description: String(formData.get("description") || "").trim(),
     };
@@ -61,6 +74,7 @@ export function ContactForm() {
 
       setIsSubmitted(true);
       form.reset();
+      setPhoneNumberInput("");
 
       timeoutRef.current = window.setTimeout(() => {
         setIsSubmitted(false);
@@ -107,8 +121,15 @@ export function ContactForm() {
             name="phoneNumber"
             type="tel"
             required
+            inputMode="numeric"
+            autoComplete="tel"
             className={fieldClassName}
-            placeholder="08xx-xxxx-xxxx"
+            placeholder="0812-3456-7890"
+            value={phoneNumberInput}
+            onChange={(event) => {
+              setSubmitError("");
+              setPhoneNumberInput(formatWhatsappNumber(event.target.value));
+            }}
           />
         </div>
       </div>

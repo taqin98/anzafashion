@@ -4,6 +4,10 @@ import type {
   ContactRequestPayload,
   ContactRequestResponse,
 } from "@/lib/contact-api";
+import {
+  getWhatsappNumberError,
+  normalizeWhatsappNumber,
+} from "@/lib/contact-api";
 
 function normalizeInput(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -18,7 +22,7 @@ export function parseContactRequestPayload(payload: unknown): ContactRequestPayl
 
   return {
     fullName: normalizeInput(record.fullName),
-    phoneNumber: normalizeInput(record.phoneNumber),
+    phoneNumber: normalizeWhatsappNumber(normalizeInput(record.phoneNumber)),
     serviceType: normalizeInput(record.serviceType),
     description: normalizeInput(record.description),
   };
@@ -31,6 +35,12 @@ export function validateContactRequestPayload(payload: ContactRequestPayload) {
 
   if (!payload.phoneNumber) {
     throw new Error("No. WhatsApp wajib diisi.");
+  }
+
+  const phoneNumberError = getWhatsappNumberError(payload.phoneNumber);
+
+  if (phoneNumberError) {
+    throw new Error(phoneNumberError);
   }
 
   if (!payload.serviceType) {
