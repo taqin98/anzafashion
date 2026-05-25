@@ -13,7 +13,16 @@ import {
 
 type RawCollectionRecord = Record<string, unknown>;
 
-type NormalizedCollectionRecord = CollectionItem & {
+type NormalizedCollectionRecord = {
+  name: string;
+  category: string;
+  price: string;
+  label: string;
+  icon: CollectionIcon;
+  image: string | undefined;
+  images: string[];
+  badge: string | undefined;
+  badgeTone: CollectionItem["badgeTone"];
   isActive: boolean;
   sortOrder: number;
 };
@@ -121,7 +130,10 @@ function normalizeBadgeTone(value: string) {
     : undefined;
 }
 
-function normalizeCollectionRecord(record: RawCollectionRecord, index: number) {
+function normalizeCollectionRecord(
+  record: RawCollectionRecord,
+  index: number,
+): NormalizedCollectionRecord | null {
   const name = readString(record, ["name", "title", "product_name"]);
 
   if (!name) {
@@ -190,7 +202,7 @@ async function fetchRemoteCollections(): Promise<{
 
     const normalizedItems = rawItems
       .map((record, index) => normalizeCollectionRecord(record, index))
-      .filter((record): record is NormalizedCollectionRecord => Boolean(record))
+      .filter((record): record is NormalizedCollectionRecord => record !== null)
       .filter((record) => record.isActive)
       .sort((left, right) => left.sortOrder - right.sortOrder)
       .map(({ isActive: _isActive, sortOrder: _sortOrder, ...item }) => item);
